@@ -6,12 +6,17 @@ import Navigation from './components/Navigation'
 // Les champs des objets datas sont des strings
 function Table({ headers, datas }) {
   const [searchInput, setSearchInput] = useState('')
-  const [filteredDatas, setFilteredDatas] = useState(datas) // A modifier si recherche
+  const [filteredDatas, setFilteredDatas] = useState(datas)
   const [currDatas, setCurrDatas] = useState(datas)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
   const [nbrItemsByPage, setNbrItemsByPage] = useState(5)
   const [rows, setRows] = useState()
+  const [sorting, setSorting] = useState({ propriety: '', direction: 1 })
+
+  useEffect(() => {
+    setFilteredDatas(sortDatas())
+  }, [sorting])
 
   useEffect(() => {
     if (searchInput.length === 0) setFilteredDatas(datas)
@@ -49,7 +54,11 @@ function Table({ headers, datas }) {
     if (!headers) return
     const keys = getKeys()
     return keys.map((key) => {
-      return <th key={key}>{headers[key]}</th>
+      return (
+        <th key={key} data-sort={key} onClick={handleSort}>
+          {headers[key]}
+        </th>
+      )
     })
   }
 
@@ -77,6 +86,24 @@ function Table({ headers, datas }) {
     const nbrFullPage = Math.floor(filteredDatas.length / nbrItemsByPage)
     const partialPage = filteredDatas.length % nbrItemsByPage
     return partialPage ? nbrFullPage + 1 : nbrFullPage
+  }
+
+  const sortDatas = () => {
+    if (sorting.propriety.length === 0) return
+    const sortedDatas = [...filteredDatas].sort((a, b) => {
+      return a[sorting.propriety] > b[sorting.propriety]
+        ? -1 * sorting.direction
+        : 1 * sorting.direction
+    })
+    return sortedDatas
+  }
+
+  const handleSort = (e) => {
+    const newSorting = { ...sorting }
+    newSorting.direction =
+      sorting.propriety === e.target.dataset.sort ? sorting.direction * -1 : 1
+    newSorting.propriety = e.target.dataset.sort
+    setSorting(newSorting)
   }
 
   const handleNextPage = () => {
