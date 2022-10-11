@@ -1,0 +1,62 @@
+[
+  {
+    "firstName": "ze",
+    "lastName": "ze",
+    "department": "Engineering",
+    "birthDate": "2022-10-11T22:00:00.000Z",
+    "street": "qsd",
+    "city": "qsdsqd",
+    "state": "Alabama",
+    "zipCode": "1345"
+  },
+  {
+    "firstName": "MAx",
+    "lastName": "Ma",
+    "department": "Human Resources",
+    "birthDate": "2022-10-13T22:00:00.000Z",
+    "street": "Av. de hennin",
+    "city": "Bxl",
+    "state": "California",
+    "zipCode": "1160"
+  },
+  {
+    "firstName": "MAx",
+    "lastName": "Pam",
+    "department": "Legal",
+    "birthDate": "2022-10-13T22:00:00.000Z",
+    "street": "Av. de hennin",
+    "city": "Bxl",
+    "state": "California",
+    "zipCode": "1160"
+  },
+  {
+    "firstName": "mm",
+    "lastName": "aa",
+    "department": "Sales",
+    "birthDate": "2022-10-12T22:00:00.000Z",
+    "street": "12",
+    "city": "54",
+    "state": "Alabama",
+    "zipCode": "1125"
+  },
+  {
+    "firstName": "",
+    "lastName": "",
+    "department": "Human Resources",
+    "birthDate": "2022-10-11T22:00:00.000Z",
+    "street": "",
+    "city": "",
+    "state": "Alabama",
+    "zipCode": ""
+  },
+  {
+    "firstName": "",
+    "lastName": "",
+    "department": "Sales",
+    "birthDate": "2022-10-04T22:00:00.000Z",
+    "street": "",
+    "city": "",
+    "state": "Alabama",
+    "zipCode": ""
+  }
+]
