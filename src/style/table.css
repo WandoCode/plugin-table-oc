@@ -1,0 +1,42 @@
+.table__navigation {
+  display: flex;
+  justify-content: space-between;
+}
+.table__select {
+  display: flex;
+  align-items: center;
+}
+
+.table__select label {
+  margin: 0 5px;
+}
+
+.table table {
+  border-collapse: collapse;
+}
+
+.table th {
+  min-width: 100px;
+}
+
+.table tbody td {
+  padding: 5px 7px;
+}
+
+.table tbody tr:nth-child(2n + 1) {
+  background-color: rgb(233, 233, 233);
+}
+.table tfoot {
+  border-top: 1px solid gray;
+}
+.table tfoot td {
+  padding: 5px 10px;
+}
+
+.table__search input {
+  height: 30px;
+  margin: 5px;
+  padding: 0 5px;
+  border: rgb(230, 230, 230) 1px solid;
+  outline: none;
+}

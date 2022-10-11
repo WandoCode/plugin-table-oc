@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Navigation from './Navigation'
+import Select from './Select'
 import '../style/index.css'
 
 const getKeys = (headers) => {
@@ -127,22 +128,34 @@ function Table({ headers, datas }) {
   }
 
   return (
-    <div>
-      <label htmlFor="itemsByPage">Items by page:</label>
-      <select name="itemsByPage" id="itemsByPage" onChange={handleSelect}>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-      </select>
-
-      <label htmlFor="search">Search</label>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        value={searchInput}
-        onChange={handleSearch}
-      />
+    <div className="table">
+      <div className="table__navigation">
+        <div className="table__select">
+          <label htmlFor="itemsByPage">Items by page:</label>
+          <Select
+            choicesArray={[5, 10, 20]}
+            onChoice={handleSelect}
+            name="itemsByPage"
+          />
+        </div>
+        <Navigation
+          onNextPage={handleNextPage}
+          onPrecPage={handlePrecPage}
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onCustomPage={handleCustomPage}
+        />
+        <div className="table__search">
+          <label htmlFor="search">Search</label>
+          <input
+            type="text"
+            name="search"
+            id="search"
+            value={searchInput}
+            onChange={handleSearch}
+          />
+        </div>
+      </div>
       <div className="table">
         <table className="blueTable">
           {headers && (
@@ -153,16 +166,7 @@ function Table({ headers, datas }) {
           <tfoot>
             <tr>
               <td colSpan="3">{filteredDatas.length} entries</td>
-              <td colSpan="3"></td>
-              <td colSpan="3">
-                <Navigation
-                  onNextPage={handleNextPage}
-                  onPrecPage={handlePrecPage}
-                  currentPage={currentPage}
-                  totalPage={totalPage}
-                  onCustomPage={handleCustomPage}
-                />
-              </td>
+              <td colSpan="6"></td>
             </tr>
           </tfoot>
           <tbody>{rows}</tbody>

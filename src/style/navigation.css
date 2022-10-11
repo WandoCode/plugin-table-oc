@@ -1,0 +1,20 @@
+.navigation {
+}
+
+.navigation__btn {
+  min-height: 30px;
+  min-width: 30px;
+  padding: 0 5px;
+}
+
+.navigation__page {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.navigation__page--active {
+  color: rgb(0, 0, 0);
+  font-weight: 800;
+  text-decoration: underline;
+}

@@ -15,11 +15,16 @@ function Navigation({
 
   const buildPages = () => {
     let pagesArray = []
+    let baseClass = 'navigation__btn navigation__page'
     for (let i = 1; i <= totalPage; i++) {
       pagesArray.push(
         <button
           key={i}
-          className={i === currentPage ? 'pages--active pages' : 'pages'}
+          className={
+            i === currentPage
+              ? baseClass + ' navigation__page--active'
+              : baseClass
+          }
           onClick={() => onCustomPage(i)}
         >
           {i}
@@ -30,15 +35,21 @@ function Navigation({
   }
 
   return (
-    <div className="table-nav">
-      <button onClick={onPrecPage} disabled={currentPage - 1 <= 0}>
-        {' '}
-        {'<'}
+    <div className="navigation">
+      <button
+        className="navigation__btn"
+        onClick={onPrecPage}
+        disabled={currentPage - 1 <= 0}
+      >
+        Prec
       </button>
       {pages}
-      <button onClick={onNextPage} disabled={currentPage + 1 > totalPage}>
-        {' '}
-        {'>'}
+      <button
+        className="navigation__btn"
+        onClick={onNextPage}
+        disabled={currentPage + 1 > totalPage}
+      >
+        Next
       </button>
     </div>
   )

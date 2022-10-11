@@ -1,0 +1,44 @@
+.select {
+  position: relative;
+}
+
+.select__selected {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 5px;
+  height: 30px;
+  margin-top: 5px;
+}
+.select__selected img {
+  height: 20px;
+  margin-right: 3px;
+  margin-left: 5px;
+}
+.select .select-options {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: rgb(235, 235, 235) 1px solid;
+  overflow-y: auto;
+  max-height: 200px;
+}
+.select input[type='radio'] {
+  height: 0;
+  width: 0;
+}
+.select__label {
+  padding: 0 5px;
+}
+.select__label:hover {
+  background-color: rgb(195, 221, 255);
+}
