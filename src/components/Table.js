@@ -56,7 +56,7 @@ function Table({ headers, datas }) {
 
   useEffect(() => {
     setFilteredDatas(sortDatas(sorting, filteredDatas))
-  }, [sorting, filteredDatas])
+  }, [sorting])
 
   useEffect(() => {
     if (searchInput.length === 0) setFilteredDatas(datas)
