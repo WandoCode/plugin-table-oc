@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 
-function Navigation({ onNextPage, onPrecPage, currentPage, totalPage }) {
+function Navigation({
+  onNextPage,
+  onPrecPage,
+  currentPage,
+  totalPage,
+  onCustomPage,
+}) {
   const [pages, setPages] = useState()
 
   useEffect(() => {
@@ -14,6 +20,7 @@ function Navigation({ onNextPage, onPrecPage, currentPage, totalPage }) {
         <button
           key={i}
           className={i === currentPage ? 'pages--active pages' : 'pages'}
+          onClick={() => onCustomPage(i)}
         >
           {i}
         </button>

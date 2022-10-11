@@ -91,6 +91,9 @@ function Table({ headers, datas }) {
   const handleSearch = (e) => {
     setSearchInput(e.target.value)
   }
+  const handleCustomPage = (page) => {
+    setCurrentPage(page)
+  }
 
   return (
     <div>
@@ -126,6 +129,7 @@ function Table({ headers, datas }) {
                   onPrecPage={handlePrecPage}
                   currentPage={currentPage}
                   totalPage={totalPage}
+                  onCustomPage={handleCustomPage}
                 />
               </td>
             </tr>
