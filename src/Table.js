@@ -1,5 +1,6 @@
 function Table({ headers, datas }) {
   const headersDOM = () => {
+    if (!headers) return
     const keys = Object.keys(headers)
     return keys.map((header) => {
       return <th key={header}>{headers[header]}</th>
@@ -7,7 +8,7 @@ function Table({ headers, datas }) {
   }
 
   return (
-    <>
+    <div>
       <div className="table">
         <table className="blueTable">
           {headers && (
@@ -39,7 +40,7 @@ function Table({ headers, datas }) {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   )
 }
 
