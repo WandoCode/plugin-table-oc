@@ -5,7 +5,8 @@ import Navigation from './components/Navigation'
 // Datas est un array d'objet. Chaque objet a un id unique.
 // Les champs des objets datas sont des strings
 function Table({ headers, datas }) {
-  const [selectedDatas, setSelectedDatas] = useState(datas) // A modifier si recherche
+  const [searchInput, setSearchInput] = useState('')
+  const [filteredDatas, setFilteredDatas] = useState(datas) // A modifier si recherche
   const [currDatas, setCurrDatas] = useState(datas)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
@@ -13,16 +14,32 @@ function Table({ headers, datas }) {
   const [rows, setRows] = useState()
 
   useEffect(() => {
+    if (searchInput.length === 0) setFilteredDatas(datas)
+    else {
+      const newFilteredDatas = datas.filter((data) => {
+        const keys = getKeys()
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i]
+          const element = data[key]
+          if (element?.includes(searchInput)) return true
+        }
+        return false
+      })
+      setFilteredDatas(newFilteredDatas)
+    }
+  }, [searchInput])
+
+  useEffect(() => {
     setCurrDatas(paginate())
-  }, [currentPage, nbrItemsByPage, selectedDatas])
+  }, [currentPage, nbrItemsByPage, filteredDatas])
 
   useEffect(() => {
     setRows(rowsDOM())
-  }, [currDatas, selectedDatas])
+  }, [currDatas])
 
   useEffect(() => {
     setTotalPage(getNbrTotPages())
-  }, [datas, nbrItemsByPage, selectedDatas])
+  }, [nbrItemsByPage, filteredDatas])
 
   const getKeys = () => {
     return Object.keys(headers).filter((key) => key !== 'id')
@@ -53,12 +70,12 @@ function Table({ headers, datas }) {
   const paginate = () => {
     const start = nbrItemsByPage * (currentPage - 1)
     const end = nbrItemsByPage * currentPage
-    return datas.slice(start, end)
+    return filteredDatas.slice(start, end)
   }
 
   const getNbrTotPages = () => {
-    const nbrFullPage = Math.floor(currDatas.length / nbrItemsByPage)
-    const partialPage = currDatas.length % nbrItemsByPage
+    const nbrFullPage = Math.floor(filteredDatas.length / nbrItemsByPage)
+    const partialPage = filteredDatas.length % nbrItemsByPage
     return partialPage ? nbrFullPage + 1 : nbrFullPage
   }
 
@@ -71,6 +88,10 @@ function Table({ headers, datas }) {
   const handleSelect = (e) => {
     setNbrItemsByPage(e.target.value)
   }
+  const handleSearch = (e) => {
+    setSearchInput(e.target.value)
+  }
+
   return (
     <div>
       <label htmlFor="itemsByPage">Items by page:</label>
@@ -80,6 +101,14 @@ function Table({ headers, datas }) {
         <option value="20">20</option>
       </select>
 
+      <label htmlFor="search">Search</label>
+      <input
+        type="text"
+        name="search"
+        id="search"
+        value={searchInput}
+        onChange={handleSearch}
+      />
       <div className="table">
         <table className="blueTable">
           {headers && (
@@ -89,7 +118,7 @@ function Table({ headers, datas }) {
           )}
           <tfoot>
             <tr>
-              <td colSpan="3">{selectedDatas.length} entries</td>
+              <td colSpan="3">{filteredDatas.length} entries</td>
               <td colSpan="3"></td>
               <td colSpan="3">
                 <Navigation
