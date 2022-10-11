@@ -5,6 +5,7 @@ import Navigation from './components/Navigation'
 // Datas est un array d'objet. Chaque objet a un id unique.
 // Les champs des objets datas sont des strings
 function Table({ headers, datas }) {
+  const [selectedDatas, setSelectedDatas] = useState(datas) // A modifier si recherche
   const [currDatas, setCurrDatas] = useState(datas)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
@@ -13,15 +14,15 @@ function Table({ headers, datas }) {
 
   useEffect(() => {
     setCurrDatas(paginate())
-  }, [currentPage, nbrItemsByPage])
+  }, [currentPage, nbrItemsByPage, selectedDatas])
 
   useEffect(() => {
     setRows(rowsDOM())
-  }, [currDatas])
+  }, [currDatas, selectedDatas])
 
   useEffect(() => {
     setTotalPage(getNbrTotPages())
-  }, [datas, nbrItemsByPage])
+  }, [datas, nbrItemsByPage, selectedDatas])
 
   const getKeys = () => {
     return Object.keys(headers).filter((key) => key !== 'id')
@@ -88,7 +89,7 @@ function Table({ headers, datas }) {
           )}
           <tfoot>
             <tr>
-              <td colSpan="3"></td>
+              <td colSpan="3">{selectedDatas.length} entries</td>
               <td colSpan="3"></td>
               <td colSpan="3">
                 <Navigation
