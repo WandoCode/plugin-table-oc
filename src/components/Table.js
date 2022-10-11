@@ -110,6 +110,7 @@ function Table({ headers, datas }) {
       currentPage + 1 <= totalPage ? currentPage + 1 : currentPage
     setCurrentPage(newCurrPage)
   }
+
   const handlePrecPage = () => {
     const newCurrPage = currentPage - 1 > 0 ? currentPage - 1 : currentPage
     setCurrentPage(newCurrPage)

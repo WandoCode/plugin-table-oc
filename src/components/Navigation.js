@@ -31,9 +31,15 @@ function Navigation({
 
   return (
     <div className="table-nav">
-      <button onClick={onPrecPage}> {'<'}</button>
+      <button onClick={onPrecPage} disabled={currentPage - 1 <= 0}>
+        {' '}
+        {'<'}
+      </button>
       {pages}
-      <button onClick={onNextPage}> {'>'}</button>
+      <button onClick={onNextPage} disabled={currentPage + 1 > totalPage}>
+        {' '}
+        {'>'}
+      </button>
     </div>
   )
 }
