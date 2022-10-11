@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Navigation from './components/Navigation'
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
@@ -11,7 +12,7 @@ function Table({ headers, datas }) {
   const [rows, setRows] = useState()
 
   useEffect(() => {
-    paginate()
+    setCurrDatas(paginate())
   }, [currentPage, nbrItemsByPage])
 
   useEffect(() => {
@@ -51,7 +52,7 @@ function Table({ headers, datas }) {
   const paginate = () => {
     const start = nbrItemsByPage * (currentPage - 1)
     const end = nbrItemsByPage * currentPage
-    setCurrDatas(datas.slice(start, end))
+    return datas.slice(start, end)
   }
 
   const getNbrTotPages = () => {
@@ -63,8 +64,10 @@ function Table({ headers, datas }) {
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1)
   }
+  const handlePrecPage = () => {
+    setCurrentPage(currentPage - 1)
+  }
   const handleSelect = (e) => {
-    console.log(e.target.value)
     setNbrItemsByPage(e.target.value)
   }
   return (
@@ -85,17 +88,21 @@ function Table({ headers, datas }) {
           )}
           <tfoot>
             <tr>
-              <td colSpan="9">
-                <div className="links">
-                  {/* Todo: Footer: mettre pagination; btn next and prev;*/}
-                </div>
+              <td colSpan="3"></td>
+              <td colSpan="3"></td>
+              <td colSpan="3">
+                <Navigation
+                  onNextPage={handleNextPage}
+                  onPrecPage={handlePrecPage}
+                  currentPage={currentPage}
+                  totalPage={totalPage}
+                />
               </td>
             </tr>
           </tfoot>
           <tbody>{rows}</tbody>
         </table>
       </div>
-      <button onClick={handleNextPage}>Next page</button>
     </div>
   )
 }
