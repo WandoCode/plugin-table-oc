@@ -1,4 +1,4 @@
-import Table from './Table'
+import Table from './components/Table'
 import data from './mock/mock-employees.json'
 function App() {
   const headers = {

@@ -1,28 +1,67 @@
 import { useState, useEffect } from 'react'
-import Navigation from './components/Navigation'
+import Navigation from './Navigation'
+import '../style/index.css'
+
+const getKeys = (headers) => {
+  return Object.keys(headers).filter((key) => key !== 'id')
+}
+
+const rowsDOM = (datas, headers) => {
+  const keys = getKeys(headers)
+  return datas.map((data) => {
+    return <tr key={data.id}>{getCells(keys, data)}</tr>
+  })
+}
+
+const getCells = (keys, data) => {
+  return keys.map((key) => {
+    return <td key={data.id + key}>{data[key]}</td>
+  })
+}
+
+// Pages start at 'page 1'
+const paginate = (nbrItemsByPage, currentPage, datas) => {
+  const start = nbrItemsByPage * (currentPage - 1)
+  const end = nbrItemsByPage * currentPage
+  return datas.slice(start, end)
+}
+
+const getNbrTotPages = (datas, nbrItemsByPage) => {
+  const nbrFullPage = Math.floor(datas.length / nbrItemsByPage)
+  const partialPage = datas.length % nbrItemsByPage
+  return partialPage ? nbrFullPage + 1 : nbrFullPage
+}
+
+const sortDatas = ({ propriety, direction }, datas) => {
+  if (propriety.length === 0) return
+  const sortedDatas = [...datas].sort((a, b) => {
+    return a[propriety] > b[propriety] ? -1 * direction : 1 * direction
+  })
+  return sortedDatas
+}
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
 // Les champs des objets datas sont des strings
 function Table({ headers, datas }) {
   const [searchInput, setSearchInput] = useState('')
-  const [filteredDatas, setFilteredDatas] = useState(datas)
-  const [currDatas, setCurrDatas] = useState(datas)
+  const [nbrItemsByPage, setNbrItemsByPage] = useState(5)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
-  const [nbrItemsByPage, setNbrItemsByPage] = useState(5)
-  const [rows, setRows] = useState()
   const [sorting, setSorting] = useState({ propriety: '', direction: 1 })
+  const [filteredDatas, setFilteredDatas] = useState(datas)
+  const [displayedDatas, setDisplayedDatas] = useState(datas)
+  const [rows, setRows] = useState()
 
   useEffect(() => {
-    setFilteredDatas(sortDatas())
-  }, [sorting])
+    setFilteredDatas(sortDatas(sorting, filteredDatas))
+  }, [sorting, filteredDatas])
 
   useEffect(() => {
     if (searchInput.length === 0) setFilteredDatas(datas)
     else {
       const newFilteredDatas = datas.filter((data) => {
-        const keys = getKeys()
+        const keys = getKeys(headers)
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i]
           const element = data[key]
@@ -32,27 +71,23 @@ function Table({ headers, datas }) {
       })
       setFilteredDatas(newFilteredDatas)
     }
-  }, [searchInput])
+  }, [searchInput, datas, headers])
 
   useEffect(() => {
-    setCurrDatas(paginate())
+    setDisplayedDatas(paginate(nbrItemsByPage, currentPage, filteredDatas))
   }, [currentPage, nbrItemsByPage, filteredDatas])
 
   useEffect(() => {
-    setRows(rowsDOM())
-  }, [currDatas])
+    setRows(rowsDOM(displayedDatas, headers))
+  }, [displayedDatas, headers])
 
   useEffect(() => {
-    setTotalPage(getNbrTotPages())
+    setTotalPage(getNbrTotPages(filteredDatas, nbrItemsByPage))
   }, [nbrItemsByPage, filteredDatas])
-
-  const getKeys = () => {
-    return Object.keys(headers).filter((key) => key !== 'id')
-  }
 
   const headersDOM = () => {
     if (!headers) return
-    const keys = getKeys()
+    const keys = getKeys(headers)
     return keys.map((key) => {
       return (
         <th key={key} data-sort={key} onClick={handleSort}>
@@ -60,42 +95,6 @@ function Table({ headers, datas }) {
         </th>
       )
     })
-  }
-
-  const rowsDOM = () => {
-    const keys = getKeys()
-    return currDatas.map((data) => {
-      return <tr key={data.id}>{getCells(keys, data)}</tr>
-    })
-  }
-
-  const getCells = (keys, data) => {
-    return keys.map((key) => {
-      return <td key={data.id + key}>{data[key]}</td>
-    })
-  }
-
-  // Pages start at 'page 1'
-  const paginate = () => {
-    const start = nbrItemsByPage * (currentPage - 1)
-    const end = nbrItemsByPage * currentPage
-    return filteredDatas.slice(start, end)
-  }
-
-  const getNbrTotPages = () => {
-    const nbrFullPage = Math.floor(filteredDatas.length / nbrItemsByPage)
-    const partialPage = filteredDatas.length % nbrItemsByPage
-    return partialPage ? nbrFullPage + 1 : nbrFullPage
-  }
-
-  const sortDatas = () => {
-    if (sorting.propriety.length === 0) return
-    const sortedDatas = [...filteredDatas].sort((a, b) => {
-      return a[sorting.propriety] > b[sorting.propriety]
-        ? -1 * sorting.direction
-        : 1 * sorting.direction
-    })
-    return sortedDatas
   }
 
   const handleSort = (e) => {
@@ -107,11 +106,15 @@ function Table({ headers, datas }) {
   }
 
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1)
+    const newCurrPage =
+      currentPage + 1 <= totalPage ? currentPage + 1 : currentPage
+    setCurrentPage(newCurrPage)
   }
   const handlePrecPage = () => {
-    setCurrentPage(currentPage - 1)
+    const newCurrPage = currentPage - 1 > 0 ? currentPage - 1 : currentPage
+    setCurrentPage(newCurrPage)
   }
+
   const handleSelect = (e) => {
     setNbrItemsByPage(e.target.value)
   }
