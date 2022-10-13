@@ -1,0 +1,23 @@
+.tableHeader {
+  display: flex;
+  align-items: stretch;
+}
+.sorting-direction {
+  position: relative;
+
+  width: 10px;
+}
+
+.sorting-direction img {
+  position: absolute;
+  height: 10px;
+  width: 15px;
+}
+
+.sorting-direction .arrow-down {
+  top: 100%;
+  transform: translateY(-100%);
+}
+.sorting-direction .arrow-up {
+  top: 0;
+}

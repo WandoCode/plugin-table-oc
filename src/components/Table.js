@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Navigation from './Navigation'
 import Select from './Select'
 import '../style/index.css'
+import TableHeader from './TableHeader'
 
 const getKeys = (headers) => {
   return Object.keys(headers).filter((key) => key !== 'id')
@@ -92,17 +93,26 @@ function Table({ headers, datas }) {
     return keys.map((key) => {
       return (
         <th key={key} data-sort={key} onClick={handleSort}>
-          {headers[key]}
+          {
+            <TableHeader
+              name={headers[key]}
+              sorted={key === sorting.propriety}
+              direction={sorting.direction}
+            />
+          }
         </th>
       )
     })
   }
 
   const handleSort = (e) => {
+    const val = e.nativeEvent.path.find((el) =>
+      el.dataset.sort ? true : false
+    )
     const newSorting = { ...sorting }
     newSorting.direction =
-      sorting.propriety === e.target.dataset.sort ? sorting.direction * -1 : 1
-    newSorting.propriety = e.target.dataset.sort
+      sorting.propriety === val.dataset.sort ? sorting.direction * -1 : 1
+    newSorting.propriety = val.dataset.sort
     setSorting(newSorting)
   }
 
