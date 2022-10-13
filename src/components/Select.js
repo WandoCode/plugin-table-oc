@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import arrowUp from '../assets/caret-up.svg'
-import arrowDown from '../assets/caret-down.svg'
+import arrowUp from './caretup.svg'
+import arrowDown from './caretdown.svg'
 import OutsideClickHandler from 'react-outside-click-handler'
 
 function Select({ choicesArray, onChoice, name }) {

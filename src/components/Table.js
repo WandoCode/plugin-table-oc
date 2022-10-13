@@ -157,7 +157,7 @@ function Table({ headers, datas }) {
         </div>
       </div>
       <div className="table">
-        <table className="blueTable">
+        <table>
           {headers && (
             <thead>
               <tr>{headersDOM()}</tr>
