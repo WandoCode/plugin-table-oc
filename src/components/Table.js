@@ -66,7 +66,7 @@ function Table({ headers, datas }) {
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i]
           const element = data[key]
-          if (element?.includes(searchInput)) return true
+          if (element?.includes(searchInput.toLocaleLowerCase())) return true
         }
         return false
       })
