@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Navigation from './Navigation'
 import Select from './Select'
 import '../style/index.css'
 import TableHeader from './TableHeader'
+import useFilterDatas from './hooks/useFilterDatas'
 
 const getKeys = (headers) => {
   return Object.keys(headers).filter((key) => key !== 'id')
@@ -22,10 +23,7 @@ const getCells = (keys, data) => {
 }
 
 // Pages start at 'page 1'
-const paginate = (nbrItemsByPage, currentPage, datas, scroll) => {
-  if (scroll) {
-    nbrItemsByPage = 35
-  }
+const paginate = (nbrItemsByPage, currentPage, datas) => {
   const start = nbrItemsByPage * (currentPage - 1)
   const end = nbrItemsByPage * currentPage
   return datas.slice(start, end)
@@ -58,39 +56,55 @@ function Table({
   sort = true,
   search = true,
 }) {
+  // const scrollRef = useRef(null)
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
   const [sorting, setSorting] = useState({ propriety: '', direction: 1 })
-  const [filteredDatas, setFilteredDatas] = useState(datas)
+  const filteredDatas = useFilterDatas(datas, sorting, searchInput, headers)
   const [displayedDatas, setDisplayedDatas] = useState(datas)
   const [rows, setRows] = useState()
 
-  useEffect(() => {
-    setFilteredDatas(sortDatas(sorting, filteredDatas))
-  }, [sorting])
+  // const handleObserver = useCallback((entries) => {
+  //   console.log(entries)
+  //   const target = entries[0]
+  //   if (target.isIntersecting) {
+  //     setCurrentPage(currentPage + 1)
+  //   }
+  // }, [])
+  // useEffect(() => {
+  //   const option = {
+  //     root: null,
+  //     rootMargin: '20px',
+  //     threshold: 0,
+  //   }
+  //   const observer = new IntersectionObserver(handleObserver, option)
+  //   observer.observe(scrollRef.current)
+  // }, [handleObserver])
+
+  // useEffect(() => {
+  //   setFilteredDatas(sortDatas(sorting, filteredDatas))
+  // }, [sorting])
+
+  // useEffect(() => {
+  //   if (searchInput.length === 0) setFilteredDatas(datas)
+  //   else {
+  //     const newFilteredDatas = datas.filter((data) => {
+  //       const keys = getKeys(headers)
+  //       for (let i = 0; i < keys.length; i++) {
+  //         const key = keys[i]
+  //         const element = data[key]
+  //         if (element?.includes(searchInput.toLocaleLowerCase())) return true
+  //       }
+  //       return false
+  //     })
+  //     setFilteredDatas(newFilteredDatas)
+  //   }
+  // }, [searchInput, datas, headers])
 
   useEffect(() => {
-    if (searchInput.length === 0) setFilteredDatas(datas)
-    else {
-      const newFilteredDatas = datas.filter((data) => {
-        const keys = getKeys(headers)
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i]
-          const element = data[key]
-          if (element?.includes(searchInput.toLocaleLowerCase())) return true
-        }
-        return false
-      })
-      setFilteredDatas(newFilteredDatas)
-    }
-  }, [searchInput, datas, headers])
-
-  useEffect(() => {
-    setDisplayedDatas(
-      paginate(nbrItemsByPage, currentPage, filteredDatas, scroll)
-    )
+    setDisplayedDatas(paginate(nbrItemsByPage, currentPage, filteredDatas))
   }, [currentPage, nbrItemsByPage, filteredDatas])
 
   useEffect(() => {
@@ -194,7 +208,9 @@ function Table({
               <tr>{headersDOM()}</tr>
             </thead>
           )}
-          <tfoot>
+          <tfoot
+          // ref={scrollRef}
+          >
             <tr>
               <td colSpan="3">{filteredDatas.length} entries</td>
               <td colSpan="6"></td>
