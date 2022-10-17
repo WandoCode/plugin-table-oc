@@ -22,6 +22,7 @@ function Table({
   defaultSort = '',
   sort = true,
   search = true,
+  showId = false,
 }) {
   sort = scroll ? false : sort //  No sorting if infinite scroll
   search = scroll ? false : search //  No search if infinite scroll
@@ -34,7 +35,13 @@ function Table({
     propriety: defaultSort,
     direction: 1,
   })
-  const filteredDatas = useFilterDatas(datas, sorting, searchInput, headers)
+  const filteredDatas = useFilterDatas(
+    datas,
+    sorting,
+    searchInput,
+    headers,
+    showId
+  )
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
   const displayedDatas = useGetDatasToDisplay(
     nbrItemsByPage,
@@ -60,11 +67,11 @@ function Table({
     [displayedDatas]
   )
 
-  const rows = useRows(displayedDatas, headers, lastItemRef)
+  const rows = useRows(displayedDatas, headers, lastItemRef, showId)
 
   const headersDOM = () => {
     if (!headers) return
-    const keys = getKeys(headers)
+    const keys = getKeys(headers, showId)
     return keys.map((key) => {
       return (
         <th key={key} data-sort={key} onClick={handleSort}>

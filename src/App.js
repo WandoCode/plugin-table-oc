@@ -2,9 +2,7 @@ import Table from './components/Table'
 import data from './mock/mock-employees.json'
 function App() {
   const headers = {
-    //
-    id: 'id',
-    //
+    id: 'ID',
     firstName: 'First Name',
     lastName: 'Last Name',
     startDate: 'Start Date',
@@ -17,7 +15,7 @@ function App() {
   }
   return (
     <div className="app">
-      <Table headers={headers} datas={data} />
+      <Table headers={headers} datas={data} scroll={false} showId={true} />
     </div>
   )
 }

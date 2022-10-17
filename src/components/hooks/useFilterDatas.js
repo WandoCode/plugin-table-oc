@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getKeys } from '../../utility/helpers'
 
-function useFilterDatas(datas, sorting, searchInput, headers) {
+function useFilterDatas(datas, sorting, searchInput, headers, showId) {
   const [filteredDatas, setFilteredDatas] = useState([])
 
   const sortDatas = () => {
@@ -18,7 +18,7 @@ function useFilterDatas(datas, sorting, searchInput, headers) {
     if (searchInput.length === 0) setFilteredDatas(datas)
     else {
       const newFilteredDatas = datas.filter((data) => {
-        const keys = getKeys(headers)
+        const keys = getKeys(headers, showId)
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i]
           const element = data[key]
