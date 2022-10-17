@@ -23,7 +23,7 @@ function Table({
   sort = true,
   search = true,
 }) {
-  sort = scroll ? false : sort
+  sort = scroll ? false : sort //  No sorting if infinite scroll
   const observer = useRef()
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
@@ -50,6 +50,7 @@ function Table({
 
   const lastItemRef = useCallback(
     (node) => {
+      if (!scroll) return
       if (observer.current) observer.current.disconnect()
       observer.current = new IntersectionObserver(handleObserver)
       if (node) observer.current.observe(node)
