@@ -22,7 +22,10 @@ const getCells = (keys, data) => {
 }
 
 // Pages start at 'page 1'
-const paginate = (nbrItemsByPage, currentPage, datas) => {
+const paginate = (nbrItemsByPage, currentPage, datas, scroll) => {
+  if (scroll) {
+    nbrItemsByPage = 35
+  }
   const start = nbrItemsByPage * (currentPage - 1)
   const end = nbrItemsByPage * currentPage
   return datas.slice(start, end)
@@ -45,9 +48,18 @@ const sortDatas = ({ propriety, direction }, datas) => {
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
 // Les champs des objets datas sont des strings
-function Table({ headers, datas }) {
+function Table({
+  headers,
+  datas,
+  defaultItemsByPage = 5,
+  itemsByPage = [5, 20, 50],
+  scroll = true,
+  defaultSort,
+  sort = true,
+  search = true,
+}) {
   const [searchInput, setSearchInput] = useState('')
-  const [nbrItemsByPage, setNbrItemsByPage] = useState(5)
+  const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
   const [sorting, setSorting] = useState({ propriety: '', direction: 1 })
@@ -76,7 +88,9 @@ function Table({ headers, datas }) {
   }, [searchInput, datas, headers])
 
   useEffect(() => {
-    setDisplayedDatas(paginate(nbrItemsByPage, currentPage, filteredDatas))
+    setDisplayedDatas(
+      paginate(nbrItemsByPage, currentPage, filteredDatas, scroll)
+    )
   }, [currentPage, nbrItemsByPage, filteredDatas])
 
   useEffect(() => {
@@ -98,6 +112,7 @@ function Table({ headers, datas }) {
               name={headers[key]}
               sorted={key === sorting.propriety}
               direction={sorting.direction}
+              sort={sort}
             />
           }
         </th>
@@ -106,6 +121,7 @@ function Table({ headers, datas }) {
   }
 
   const handleSort = (e) => {
+    if (!sort) return
     const val = e.nativeEvent.path.find((el) =>
       el.dataset.sort ? true : false
     )
@@ -140,21 +156,26 @@ function Table({ headers, datas }) {
   return (
     <div className="table">
       <div className="table__navigation">
-        <div className="table__select">
-          <label htmlFor="itemsByPage">Items by page:</label>
-          <Select
-            choicesArray={[5, 10, 20]}
-            onChoice={handleSelect}
-            name="itemsByPage"
-          />
-        </div>
-        <Navigation
-          onNextPage={handleNextPage}
-          onPrecPage={handlePrecPage}
-          currentPage={currentPage}
-          totalPage={totalPage}
-          onCustomPage={handleCustomPage}
-        />
+        {!scroll && (
+          <>
+            <div className="table__select">
+              <label htmlFor="itemsByPage">Items by page:</label>
+              <Select
+                choicesArray={itemsByPage}
+                onChoice={handleSelect}
+                name="itemsByPage"
+              />
+            </div>
+            <Navigation
+              onNextPage={handleNextPage}
+              onPrecPage={handlePrecPage}
+              currentPage={currentPage}
+              totalPage={totalPage}
+              onCustomPage={handleCustomPage}
+            />
+          </>
+        )}
+
         <div className="table__search">
           <label htmlFor="search">Search</label>
           <input

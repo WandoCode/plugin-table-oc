@@ -3,7 +3,7 @@ import arrowDown from './caretdown.svg'
 
 import { useState, useEffect } from 'react'
 
-function TableHeader({ name, sorted, direction }) {
+function TableHeader({ name, sorted, direction, sort }) {
   const [sortDirectionImg, setSortDirectionImg] = useState()
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function TableHeader({ name, sorted, direction }) {
   return (
     <div className="tableHeader">
       <div>{name}</div>
-      <div className="sorting-direction">{sortDirectionImg}</div>
+      {sort && <div className="sorting-direction">{sortDirectionImg}</div>}
     </div>
   )
 }
