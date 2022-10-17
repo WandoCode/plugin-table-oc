@@ -24,6 +24,8 @@ function Table({
   search = true,
 }) {
   sort = scroll ? false : sort //  No sorting if infinite scroll
+  search = scroll ? false : search //  No search if infinite scroll
+
   const observer = useRef()
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
