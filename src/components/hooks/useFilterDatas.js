@@ -15,10 +15,6 @@ function useFilterDatas(datas, sorting, searchInput, headers) {
   }
 
   useEffect(() => {
-    setFilteredDatas(sortDatas(sorting, filteredDatas))
-  }, [sorting])
-
-  useEffect(() => {
     if (searchInput.length === 0) setFilteredDatas(datas)
     else {
       const newFilteredDatas = datas.filter((data) => {
@@ -33,6 +29,10 @@ function useFilterDatas(datas, sorting, searchInput, headers) {
       setFilteredDatas(newFilteredDatas)
     }
   }, [searchInput, datas, headers])
+
+  useEffect(() => {
+    if (sorting.propriety !== '') setFilteredDatas(sortDatas(filteredDatas))
+  }, [sorting])
 
   return filteredDatas
 }

@@ -19,7 +19,7 @@ function Table({
   defaultItemsByPage = 20,
   itemsByPage = [5, 20, 50],
   scroll = false,
-  defaultSort,
+  defaultSort = '',
   sort = true,
   search = true,
 }) {
@@ -29,7 +29,7 @@ function Table({
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
   const [sorting, setSorting] = useState({
-    propriety: '',
+    propriety: defaultSort,
     direction: 1,
   })
   const filteredDatas = useFilterDatas(datas, sorting, searchInput, headers)
@@ -80,7 +80,6 @@ function Table({
   }
 
   const handleSort = (e) => {
-    if (!sort) return
     const val = e.nativeEvent.path.find((el) =>
       el.dataset.sort ? true : false
     )
