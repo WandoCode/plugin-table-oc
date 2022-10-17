@@ -3,7 +3,7 @@ import arrowUp from './caretup.svg'
 import arrowDown from './caretdown.svg'
 import OutsideClickHandler from 'react-outside-click-handler'
 
-function Select({ choicesArray, onChoice, name }) {
+function Select({ choicesArray, onChoice, name, value }) {
   const [openMenu, setOpenMenu] = useState(false)
   const [currValue, setCurrValue] = useState(choicesArray[0])
 
@@ -45,7 +45,7 @@ function Select({ choicesArray, onChoice, name }) {
           onClick={handleBtnClick}
           className="select__selected"
         >
-          {currValue}
+          {value}
           {openMenu ? (
             <img src={arrowUp} alt="arrow up" />
           ) : (

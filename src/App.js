@@ -15,7 +15,15 @@ function App() {
   }
   return (
     <div className="app">
-      <Table headers={headers} datas={data} scroll={true} showId={true} />
+      <Table
+        headers={headers}
+        datas={data}
+        scroll={false}
+        showId={false}
+        search={false}
+        itemsByPage={[10, 20, 30]}
+        defaultItemsByPage={20}
+      />
     </div>
   )
 }

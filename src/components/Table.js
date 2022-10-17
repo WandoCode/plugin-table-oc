@@ -24,7 +24,6 @@ function Table({
   search = true,
   showId = false,
 }) {
-  // sort = scroll ? false : sort //  No sorting if infinite scroll
   search = scroll ? false : search //  No search if infinite scroll
 
   const observer = useRef()
@@ -126,6 +125,7 @@ function Table({
                 choicesArray={itemsByPage}
                 onChoice={handleSelect}
                 name="itemsByPage"
+                value={nbrItemsByPage}
               />
             </div>
             <Navigation
