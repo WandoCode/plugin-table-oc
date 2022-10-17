@@ -24,7 +24,7 @@ function Table({
   search = true,
   showId = false,
 }) {
-  sort = scroll ? false : sort //  No sorting if infinite scroll
+  // sort = scroll ? false : sort //  No sorting if infinite scroll
   search = scroll ? false : search //  No search if infinite scroll
 
   const observer = useRef()
@@ -35,18 +35,13 @@ function Table({
     propriety: defaultSort,
     direction: 1,
   })
-  const filteredDatas = useFilterDatas(
-    datas,
-    sorting,
-    searchInput,
-    headers,
-    showId
-  )
+  const filteredDatas = useFilterDatas(datas, searchInput, headers, showId)
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
   const displayedDatas = useGetDatasToDisplay(
     nbrItemsByPage,
     currentPage,
     filteredDatas,
+    sorting,
     scroll
   )
 

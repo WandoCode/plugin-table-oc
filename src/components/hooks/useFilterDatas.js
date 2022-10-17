@@ -1,18 +1,8 @@
 import { useState, useEffect } from 'react'
 import { getKeys } from '../../utility/helpers'
 
-function useFilterDatas(datas, sorting, searchInput, headers, showId) {
+function useFilterDatas(datas, searchInput, headers, showId) {
   const [filteredDatas, setFilteredDatas] = useState([])
-
-  const sortDatas = () => {
-    if (sorting.propriety.length === 0) return
-    const sortedDatas = [...datas].sort((a, b) => {
-      return a[sorting.propriety] > b[sorting.propriety]
-        ? -1 * sorting.direction
-        : 1 * sorting.direction
-    })
-    return sortedDatas
-  }
 
   useEffect(() => {
     if (searchInput.length === 0) setFilteredDatas(datas)
@@ -29,10 +19,6 @@ function useFilterDatas(datas, sorting, searchInput, headers, showId) {
       setFilteredDatas(newFilteredDatas)
     }
   }, [searchInput, datas, headers])
-
-  useEffect(() => {
-    if (sorting.propriety !== '') setFilteredDatas(sortDatas(filteredDatas))
-  }, [sorting])
 
   return filteredDatas
 }

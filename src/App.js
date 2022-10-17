@@ -15,7 +15,7 @@ function App() {
   }
   return (
     <div className="app">
-      <Table headers={headers} datas={data} scroll={false} showId={true} />
+      <Table headers={headers} datas={data} scroll={true} showId={true} />
     </div>
   )
 }
