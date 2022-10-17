@@ -11,11 +11,12 @@ function useFilterDatas(datas, searchInput, headers, showId) {
         const keys = getKeys(headers, showId)
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i]
-          const element = data[key]
-          if (element?.includes(searchInput.toLocaleLowerCase())) return true
+          const element = data[key]?.toLowerCase()
+          if (element?.includes(searchInput.toLowerCase())) return true
         }
         return false
       })
+      console.log(newFilteredDatas)
       setFilteredDatas(newFilteredDatas)
     }
   }, [searchInput, datas, headers])

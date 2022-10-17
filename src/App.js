@@ -20,7 +20,7 @@ function App() {
         datas={data}
         scroll={false}
         showId={false}
-        search={false}
+        search={true}
         itemsByPage={[10, 20, 30]}
         defaultItemsByPage={20}
       />
