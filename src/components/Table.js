@@ -6,8 +6,8 @@ import TableHeader from './TableHeader'
 import useFilterDatas from './hooks/useFilterDatas'
 import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
 import useRows from './hooks/useRows'
-import { getKeys } from '../utility/helpers'
 import useTotalPages from './hooks/useTotalPages'
+import { getKeys } from '../utility/helpers'
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
@@ -15,14 +15,14 @@ import useTotalPages from './hooks/useTotalPages'
 function Table({
   headers,
   datas,
-  defaultItemsByPage = 5,
+  defaultItemsByPage = 20,
   itemsByPage = [5, 20, 50],
   scroll = true,
   defaultSort,
   sort = true,
   search = true,
 }) {
-  // const scrollRef = useRef(null)
+  const observer = useRef()
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
@@ -30,29 +30,30 @@ function Table({
   const filteredDatas = useFilterDatas(datas, sorting, searchInput, headers)
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
   const displayedDatas = useGetDatasToDisplay(
-    datas,
     nbrItemsByPage,
     currentPage,
-    filteredDatas
+    filteredDatas,
+    scroll
   )
-  const rows = useRows(displayedDatas, headers)
 
-  // const handleObserver = useCallback((entries) => {
-  //   console.log(entries)
-  //   const target = entries[0]
-  //   if (target.isIntersecting) {
-  //     setCurrentPage(currentPage + 1)
-  //   }
-  // }, [])
-  // useEffect(() => {
-  //   const option = {
-  //     root: null,
-  //     rootMargin: '20px',
-  //     threshold: 0,
-  //   }
-  //   const observer = new IntersectionObserver(handleObserver, option)
-  //   observer.observe(scrollRef.current)
-  // }, [handleObserver])
+  const handleObserver = (entries) => {
+    const target = entries[0]
+    if (target.isIntersecting) {
+      handleNextPage()
+    }
+  }
+
+  const lastItemRef = useCallback(
+    (node) => {
+      console.log(1)
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver(handleObserver)
+      if (node) observer.current.observe(node)
+    },
+    [displayedDatas]
+  )
+
+  const rows = useRows(displayedDatas, headers, lastItemRef)
 
   const headersDOM = () => {
     if (!headers) return
@@ -99,17 +100,16 @@ function Table({
   const handleSelect = (e) => {
     setNbrItemsByPage(e.target.value)
   }
-
   const handleSearch = (e) => {
     setSearchInput(e.target.value)
   }
-
   const handleCustomPage = (page) => {
     setCurrentPage(page)
   }
 
   return (
     <div className="table">
+      <button onClick={handleNextPage}>clic</button>
       <div className="table__navigation">
         {!scroll && (
           <>
@@ -149,9 +149,7 @@ function Table({
               <tr>{headersDOM()}</tr>
             </thead>
           )}
-          <tfoot
-          // ref={scrollRef}
-          >
+          <tfoot>
             <tr>
               <td colSpan="3">{filteredDatas.length} entries</td>
               <td colSpan="6"></td>

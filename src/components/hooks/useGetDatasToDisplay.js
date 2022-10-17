@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+
 // Pages start at 'page 1'
 const paginate = (nbrItemsByPage, currentPage, datas) => {
   const start = nbrItemsByPage * (currentPage - 1)
@@ -7,15 +8,21 @@ const paginate = (nbrItemsByPage, currentPage, datas) => {
 }
 
 function useGetDatasToDisplay(
-  datas,
   nbrItemsByPage,
   currentPage,
-  filteredDatas
+  filteredDatas,
+  scroll
 ) {
-  const [displayedDatas, setDisplayedDatas] = useState(datas)
+  const [displayedDatas, setDisplayedDatas] = useState([])
 
   useEffect(() => {
-    setDisplayedDatas(paginate(nbrItemsByPage, currentPage, filteredDatas))
+    if (!scroll)
+      setDisplayedDatas(paginate(nbrItemsByPage, currentPage, filteredDatas))
+    if (scroll) {
+      const prevDatas = [...displayedDatas]
+      const newDatas = paginate(nbrItemsByPage, currentPage, filteredDatas)
+      setDisplayedDatas([...prevDatas, ...newDatas])
+    }
   }, [currentPage, nbrItemsByPage, filteredDatas])
 
   return displayedDatas

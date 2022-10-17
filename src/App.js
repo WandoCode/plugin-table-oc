@@ -2,6 +2,9 @@ import Table from './components/Table'
 import data from './mock/mock-employees.json'
 function App() {
   const headers = {
+    //
+    id: 'id',
+    //
     firstName: 'First Name',
     lastName: 'Last Name',
     startDate: 'Start Date',

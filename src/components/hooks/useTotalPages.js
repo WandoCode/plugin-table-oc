@@ -7,11 +7,12 @@ const getNbrTotPages = (datas, nbrItemsByPage) => {
 }
 
 function useTotalPages(filteredDatas, nbrItemsByPage) {
-  const [totalPage, setTotalPage] = useState()
+  const [totalPage, setTotalPage] = useState(0)
 
   useEffect(() => {
     setTotalPage(getNbrTotPages(filteredDatas, nbrItemsByPage))
   }, [nbrItemsByPage, filteredDatas])
+
   return totalPage
 }
 

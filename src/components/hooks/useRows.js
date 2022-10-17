@@ -6,19 +6,26 @@ const getCells = (keys, data) => {
     return <td key={data.id + key}>{data[key]}</td>
   })
 }
-const rowsDOM = (datas, headers) => {
+const rowsDOM = (datas, headers, lastItemRef) => {
   const keys = getKeys(headers)
-  return datas.map((data) => {
-    return <tr key={data.id}>{getCells(keys, data)}</tr>
+  return datas.map((data, index) => {
+    if (datas.length === index + 1)
+      return (
+        <tr key={data.id} ref={lastItemRef}>
+          {getCells(keys, data)}
+        </tr>
+      )
+    else return <tr key={data.id}>{getCells(keys, data)}</tr>
   })
 }
 
-function useRows(displayedDatas, headers) {
-  const [rows, setRows] = useState()
+function useRows(displayedDatas, headers, lastItemRef) {
+  const [rows, setRows] = useState([])
 
   useEffect(() => {
-    setRows(rowsDOM(displayedDatas, headers))
+    setRows(rowsDOM(displayedDatas, headers, lastItemRef))
   }, [displayedDatas, headers])
+
   return rows
 }
 
