@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
+import { getKeys } from '../../utility/helpers'
 
 function useFilterDatas(datas, sorting, searchInput, headers) {
   const [filteredDatas, setFilteredDatas] = useState(datas)
-
-  const getKeys = (headers) => {
-    return Object.keys(headers).filter((key) => key !== 'id')
-  }
 
   const sortDatas = () => {
     if (sorting.propriety.length === 0) return
