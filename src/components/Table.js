@@ -136,14 +136,18 @@ function Table({
         )}
 
         <div className="table__search">
-          <label htmlFor="search">Search</label>
-          <input
-            type="text"
-            name="search"
-            id="search"
-            value={searchInput}
-            onChange={handleSearch}
-          />
+          {search && (
+            <>
+              <label htmlFor="search">Search</label>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                value={searchInput}
+                onChange={handleSearch}
+              />
+            </>
+          )}
         </div>
       </div>
       <div className="table">
