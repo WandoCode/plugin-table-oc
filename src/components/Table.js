@@ -12,21 +12,26 @@ import { getKeys } from '../utility/helpers'
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
 // Les champs des objets datas sont des strings
+// Pas de sorting si infinite scroll
 function Table({
   headers,
   datas,
   defaultItemsByPage = 20,
   itemsByPage = [5, 20, 50],
-  scroll = true,
+  scroll = false,
   defaultSort,
   sort = true,
   search = true,
 }) {
+  sort = scroll ? false : sort
   const observer = useRef()
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
-  const [sorting, setSorting] = useState({ propriety: '', direction: 1 })
+  const [sorting, setSorting] = useState({
+    propriety: '',
+    direction: 1,
+  })
   const filteredDatas = useFilterDatas(datas, sorting, searchInput, headers)
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
   const displayedDatas = useGetDatasToDisplay(
@@ -45,7 +50,6 @@ function Table({
 
   const lastItemRef = useCallback(
     (node) => {
-      console.log(1)
       if (observer.current) observer.current.disconnect()
       observer.current = new IntersectionObserver(handleObserver)
       if (node) observer.current.observe(node)
@@ -109,7 +113,6 @@ function Table({
 
   return (
     <div className="table">
-      <button onClick={handleNextPage}>clic</button>
       <div className="table__navigation">
         {!scroll && (
           <>
