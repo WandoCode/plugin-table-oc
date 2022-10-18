@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from 'react'
+import { useSelector } from 'react-redux'
 
 import '../style/index.css'
 import TableHeaders from './TableHeaders'
@@ -8,15 +9,12 @@ import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import useSort from './hooks/useSort'
 
-function ScrollTable({
-  headers,
-  datas,
-  defaultItemsByPage = 5,
-  defaultSort = '',
-  sort = true,
-  showId = false,
-}) {
-  const observer = useRef()
+function ScrollTable({ datas }) {
+  const defaultItemsByPage = useSelector(
+    (state) => state.table.defaultItemsByPage
+  )
+  const defaultSort = useSelector((state) => state.table.defaultSort)
+
   const nbrItemsByPage = defaultItemsByPage
   const [currentPage, setCurrentPage] = useState(1)
   const [sorting, setSorting] = useState({
@@ -24,7 +22,7 @@ function ScrollTable({
     direction: 1,
   })
 
-  const filteredDatas = useFilterDatas(datas, '', headers, showId)
+  const filteredDatas = useFilterDatas(datas, '')
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
   const datasToDisplay = useGetDatasToDisplay(
     filteredDatas,
@@ -35,6 +33,7 @@ function ScrollTable({
   )
   const finalDatas = useSort(datasToDisplay, sorting)
 
+  const observer = useRef()
   const lastItemRef = useCallback(
     (node) => {
       if (observer.current) observer.current.disconnect()
@@ -44,7 +43,7 @@ function ScrollTable({
     [datasToDisplay]
   )
 
-  const rows = useRows(finalDatas, headers, lastItemRef, showId)
+  const rows = useRows(finalDatas, lastItemRef)
 
   const handleObserver = (entries) => {
     const target = entries[0]
@@ -58,20 +57,16 @@ function ScrollTable({
       currentPage + 1 <= totalPage ? currentPage + 1 : currentPage
     setCurrentPage(newCurrPage)
   }
+
   const onSorting = (newSorting) => {
     setSorting(newSorting)
   }
+
   return (
     <div className="table">
       <div className="table">
         <table>
-          <TableHeaders
-            headers={headers}
-            showId={showId}
-            sorting={sorting}
-            sort={sort}
-            onSorting={onSorting}
-          />
+          <TableHeaders sorting={sorting} onSorting={onSorting} />
           <tfoot>
             <tr>
               <td colSpan="3">{filteredDatas.length} entries</td>

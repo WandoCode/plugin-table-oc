@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react'
 import { getKeys } from '../../utility/helpers'
+import { useSelector } from 'react-redux'
 
-function useRows(datas, headers, lastItemRef, showId) {
+function useRows(datas, lastItemRef) {
+  const headers = useSelector((state) => state.table.headers)
+  const showId = useSelector((state) => state.table.showId)
+
   const [rows, setRows] = useState([])
 
   useEffect(() => {

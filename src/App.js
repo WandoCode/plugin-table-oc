@@ -20,12 +20,15 @@ function App() {
         datas={datas}
         scroll={true}
         showId={false}
-        search={true}
-        itemsByPage={[10, 20, 30]}
-        defaultItemsByPage={20}
+        defaultItemsByPage={60}
+        defaultSort="state"
+        sort={true}
       />
     </div>
   )
 }
 
 export default App
+// TODO: lors d'une recherche ou d'un changement de nombre d'items par page: on revient à la page 1
+// TODO: Passer les états à redux
+//TODO: Ecrire les test (unitaire + cypress)

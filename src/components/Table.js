@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-
 import '../style/index.css'
-import TableHeader from './TableHeader'
-import useFilterDatas from './hooks/useFilterDatas'
-import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
-import useRows from './hooks/useRows'
-import useTotalPages from './hooks/useTotalPages'
-import { getKeys } from '../utility/helpers'
-import useSort from './hooks/useSort'
 import ScrollTable from './ScrollTable'
 import PagesTables from './PagesTable'
+import { useDispatch } from 'react-redux'
+import {
+  setDefaultItemsByPage,
+  setDefaultSort,
+  setHeaders,
+  setItemsByPage,
+  setSearch,
+  setShowId,
+  setSort,
+} from './Table.actions'
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
@@ -26,6 +27,15 @@ function Table({
   search = true,
   showId = false,
 }) {
+  const dispatch = useDispatch()
+  dispatch(setSearch(search))
+  dispatch(setHeaders(headers))
+  dispatch(setDefaultItemsByPage(defaultItemsByPage))
+  dispatch(setItemsByPage(itemsByPage))
+  dispatch(setDefaultSort(defaultSort))
+  dispatch(setShowId(showId))
+  dispatch(setSort(sort))
+
   if (scroll)
     return (
       <ScrollTable

@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react'
 import { getKeys } from '../../utility/helpers'
+import { useSelector } from 'react-redux'
 
-function useFilterDatas(datas, searchInput, headers, showId) {
+function useFilterDatas(datas, searchInput) {
+  const headers = useSelector((state) => state.table.headers)
+  const showId = useSelector((state) => state.table.showId)
+
   const [filteredDatas, setFilteredDatas] = useState([])
 
   useEffect(() => {
@@ -15,12 +19,12 @@ function useFilterDatas(datas, searchInput, headers, showId) {
     }
   }, [searchInput, datas, headers])
 
-  const isInputInData = (data, searchInput, headers, showId) => {
+  const isInputInData = (data, searchInput) => {
     const keys = getKeys(headers, showId)
-
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]
-      const element = data[key]?.toLowerCase()
+      const elementStr = String(data[key])
+      const element = elementStr.toLowerCase()
       if (element?.includes(searchInput.toLowerCase())) return true
     }
 

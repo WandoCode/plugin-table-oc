@@ -1,7 +1,12 @@
 import { getKeys } from '../utility/helpers'
 import TableHeader from './TableHeader'
+import { useSelector } from 'react-redux'
 
-function TableHeaders({ headers, showId, sorting, sort, onSorting }) {
+function TableHeaders({ sorting, onSorting }) {
+  const headers = useSelector((state) => state.table.headers)
+  const sort = useSelector((state) => state.table.sort)
+  const showId = useSelector((state) => state.table.showId)
+
   const handleSort = (e) => {
     const val = e.nativeEvent.path.find((el) =>
       el.dataset.sort ? true : false

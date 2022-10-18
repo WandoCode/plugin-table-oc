@@ -2,14 +2,15 @@ import { useState } from 'react'
 import arrowUp from './caretup.svg'
 import arrowDown from './caretdown.svg'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { useSelector } from 'react-redux'
 
-function Select({ choicesArray, onChoice, name, value }) {
+function Select({ onChoice, name, value }) {
+  const choicesArray = useSelector((state) => state.table.itemsByPage)
+
   const [openMenu, setOpenMenu] = useState(false)
-  const [currValue, setCurrValue] = useState(choicesArray[0])
 
   const handleInput = (e) => {
     onChoice(e)
-    setCurrValue(e.target.value)
     setOpenMenu(false)
   }
 
