@@ -27,19 +27,18 @@ function useGetDatasToDisplay(
   }
 
   useEffect(() => {
+    let dataToDisplay
     if (!scroll)
-      setDisplayedDatas(paginate(nbrItemsByPage, currentPage, filteredDatas))
+      dataToDisplay = paginate(nbrItemsByPage, currentPage, filteredDatas)
     if (scroll) {
       const prevDatas = [...displayedDatas]
       const newDatas = paginate(nbrItemsByPage, currentPage, filteredDatas)
-      setDisplayedDatas([...prevDatas, ...newDatas])
+      dataToDisplay = [...prevDatas, ...newDatas]
     }
-  }, [currentPage, nbrItemsByPage, filteredDatas])
 
-  useEffect(() => {
-    if (sorting.propriety !== '')
-      setDisplayedDatas(sortDatas([...displayedDatas]))
-  }, [sorting])
+    if (sorting.propriety !== '') setDisplayedDatas(sortDatas(dataToDisplay))
+    else setDisplayedDatas(dataToDisplay)
+  }, [currentPage, nbrItemsByPage, filteredDatas, sorting])
 
   return displayedDatas
 }

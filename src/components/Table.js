@@ -16,7 +16,7 @@ import { getKeys } from '../utility/helpers'
 function Table({
   headers,
   datas,
-  defaultItemsByPage = 20,
+  defaultItemsByPage = 5,
   itemsByPage = [5, 20, 50],
   scroll = false,
   defaultSort = '',
