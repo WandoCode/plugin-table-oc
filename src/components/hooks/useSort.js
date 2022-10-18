@@ -16,7 +16,7 @@ function useSort(datas, sorting) {
   useEffect(() => {
     if (sorting.propriety !== '') setSortedDatas(sortDatas(datas))
     else setSortedDatas(datas)
-  }, [datas])
+  }, [datas, sorting])
 
   return sortedDatas
 }

@@ -7,8 +7,9 @@ import useFilterDatas from './hooks/useFilterDatas'
 import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
 import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
-import { getKeys } from '../utility/helpers'
+import { getHeadersDOM } from '../utility/helpers'
 import useSort from './hooks/useSort'
+import TableHeaders from './TableHeaders'
 
 function PagesTables({
   headers,
@@ -29,45 +30,19 @@ function PagesTables({
   })
 
   const filteredDatas = useFilterDatas(datas, searchInput, headers, showId)
-  const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
+  const sortedDatas = useSort(filteredDatas, sorting)
+  const totalPage = useTotalPages(sortedDatas, nbrItemsByPage)
   const datasToDisplay = useGetDatasToDisplay(
-    filteredDatas,
+    sortedDatas,
     nbrItemsByPage,
     currentPage,
     sorting,
     false
   )
-  const finalDatas = useSort(datasToDisplay, sorting)
 
-  const rows = useRows(finalDatas, headers, null, showId)
+  const rows = useRows(datasToDisplay, headers, null, showId)
 
-  const headersDOM = () => {
-    if (!headers) return
-    const keys = getKeys(headers, showId)
-    return keys.map((key) => {
-      return (
-        <th key={key} data-sort={key} onClick={handleSort}>
-          {
-            <TableHeader
-              name={headers[key]}
-              sorted={key === sorting.propriety}
-              direction={sorting.direction}
-              sort={sort}
-            />
-          }
-        </th>
-      )
-    })
-  }
-
-  const handleSort = (e) => {
-    const val = e.nativeEvent.path.find((el) =>
-      el.dataset.sort ? true : false
-    )
-    const newSorting = { ...sorting }
-    newSorting.direction =
-      sorting.propriety === val.dataset.sort ? sorting.direction * -1 : 1
-    newSorting.propriety = val.dataset.sort
+  const onSorting = (newSorting) => {
     setSorting(newSorting)
   }
 
@@ -128,11 +103,13 @@ function PagesTables({
       </div>
       <div className="table">
         <table>
-          {headers && (
-            <thead>
-              <tr>{headersDOM()}</tr>
-            </thead>
-          )}
+          <TableHeaders
+            headers={headers}
+            showId={showId}
+            sorting={sorting}
+            sort={sort}
+            onSorting={onSorting}
+          />
           <tfoot>
             <tr>
               <td colSpan="3">{filteredDatas.length} entries</td>
