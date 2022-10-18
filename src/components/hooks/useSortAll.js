@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function useSort(datas, sorting) {
+function useSortAll(datas, sorting) {
   const [sortedDatas, setSortedDatas] = useState(datas)
 
   const sortDatas = (datas) => {
@@ -21,4 +21,4 @@ function useSort(datas, sorting) {
   return sortedDatas
 }
 
-export default useSort
+export default useSortAll

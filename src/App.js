@@ -1,5 +1,5 @@
 import Table from './components/Table'
-import data from './mock/mock-employees.json'
+import datas from './mock/mock-employees.json'
 function App() {
   const headers = {
     id: 'ID',
@@ -17,7 +17,7 @@ function App() {
     <div className="app">
       <Table
         headers={headers}
-        datas={data}
+        datas={datas}
         scroll={true}
         showId={false}
         search={true}

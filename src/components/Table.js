@@ -9,6 +9,7 @@ import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import { getKeys } from '../utility/helpers'
 import useSort from './hooks/useSort'
+import ScrollTable from './ScrollTable'
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
@@ -20,14 +21,13 @@ function Table({
   defaultItemsByPage = 5,
   itemsByPage = [5, 20, 50],
   scroll = false,
-  defaultSort = 'state',
+  defaultSort = '',
   sort = true,
   search = true,
   showId = false,
 }) {
   search = scroll ? false : search //  No search if infinite scroll
 
-  const observer = useRef()
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
@@ -35,35 +35,19 @@ function Table({
     propriety: defaultSort,
     direction: 1,
   })
+
   const filteredDatas = useFilterDatas(datas, searchInput, headers, showId)
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
   const datasToDisplay = useGetDatasToDisplay(
+    filteredDatas,
     nbrItemsByPage,
     currentPage,
-    filteredDatas,
     sorting,
     scroll
   )
   const finalDatas = useSort(datasToDisplay, sorting)
 
-  const handleObserver = (entries) => {
-    const target = entries[0]
-    if (target.isIntersecting) {
-      handleNextPage()
-    }
-  }
-
-  const lastItemRef = useCallback(
-    (node) => {
-      if (!scroll) return
-      if (observer.current) observer.current.disconnect()
-      observer.current = new IntersectionObserver(handleObserver)
-      if (node) observer.current.observe(node)
-    },
-    [datasToDisplay]
-  )
-
-  const rows = useRows(finalDatas, headers, lastItemRef, showId)
+  const rows = useRows(finalDatas, headers, null, showId)
 
   const headersDOM = () => {
     if (!headers) return
@@ -116,63 +100,75 @@ function Table({
     setCurrentPage(page)
   }
 
-  return (
-    <div className="table">
-      <div className="table__navigation">
-        {!scroll && (
-          <>
-            <div className="table__select">
-              <label htmlFor="itemsByPage">Items by page:</label>
-              <Select
-                choicesArray={itemsByPage}
-                onChoice={handleSelect}
-                name="itemsByPage"
-                value={nbrItemsByPage}
-              />
-            </div>
-            <Navigation
-              onNextPage={handleNextPage}
-              onPrecPage={handlePrecPage}
-              currentPage={currentPage}
-              totalPage={totalPage}
-              onCustomPage={handleCustomPage}
-            />
-          </>
-        )}
-
-        <div className="table__search">
-          {search && (
+  if (scroll)
+    return (
+      <ScrollTable
+        headers={headers}
+        datas={datas}
+        defaultItemsByPage={defaultItemsByPage}
+        defaultSort={defaultSort}
+        sort={sort}
+        showId={showId}
+      />
+    )
+  else
+    return (
+      <div className="table">
+        <div className="table__navigation">
+          {!scroll && (
             <>
-              <label htmlFor="search">Search</label>
-              <input
-                type="text"
-                name="search"
-                id="search"
-                value={searchInput}
-                onChange={handleSearch}
+              <div className="table__select">
+                <label htmlFor="itemsByPage">Items by page:</label>
+                <Select
+                  choicesArray={itemsByPage}
+                  onChoice={handleSelect}
+                  name="itemsByPage"
+                  value={nbrItemsByPage}
+                />
+              </div>
+              <Navigation
+                onNextPage={handleNextPage}
+                onPrecPage={handlePrecPage}
+                currentPage={currentPage}
+                totalPage={totalPage}
+                onCustomPage={handleCustomPage}
               />
             </>
           )}
+
+          <div className="table__search">
+            {search && (
+              <>
+                <label htmlFor="search">Search</label>
+                <input
+                  type="text"
+                  name="search"
+                  id="search"
+                  value={searchInput}
+                  onChange={handleSearch}
+                />
+              </>
+            )}
+          </div>
+        </div>
+        <div className="table">
+          <table>
+            {headers && (
+              <thead>
+                <tr>{headersDOM()}</tr>
+              </thead>
+            )}
+            <tfoot>
+              <tr>
+                <td colSpan="3">{filteredDatas.length} entries</td>
+                <td colSpan="6"></td>
+              </tr>
+            </tfoot>
+            <tbody>{rows}</tbody>
+          </table>
         </div>
       </div>
-      <div className="table">
-        <table>
-          {headers && (
-            <thead>
-              <tr>{headersDOM()}</tr>
-            </thead>
-          )}
-          <tfoot>
-            <tr>
-              <td colSpan="3">{filteredDatas.length} entries</td>
-              <td colSpan="6"></td>
-            </tr>
-          </tfoot>
-          <tbody>{rows}</tbody>
-        </table>
-      </div>
-    </div>
-  )
+    )
 }
 
 export default Table
