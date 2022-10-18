@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { getKeys } from '../../utility/helpers'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { goToPage } from '../Table.actions'
 
 function useFilterDatas(datas, searchInput) {
+  const dispatch = useDispatch()
   const headers = useSelector((state) => state.table.headers)
   const showId = useSelector((state) => state.table.showId)
 
@@ -17,6 +19,7 @@ function useFilterDatas(datas, searchInput) {
 
       setFilteredDatas(newFilteredDatas)
     }
+    dispatch(goToPage(1))
   }, [searchInput, datas, headers])
 
   const isInputInData = (data) => {

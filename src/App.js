@@ -29,6 +29,5 @@ function App() {
 }
 
 export default App
-// TODO: lors d'une recherche ou d'un changement de nombre d'items par page: on revient à la page 1
-// TODO: Passer les états à redux
 //TODO: Ecrire les test (unitaire + cypress)
+//TODO: Ecrire la documentation
