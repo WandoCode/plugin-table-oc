@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 const getNbrTotPages = (datas, nbrItemsByPage) => {
   const nbrFullPage = Math.floor(datas.length / nbrItemsByPage)
@@ -6,7 +7,9 @@ const getNbrTotPages = (datas, nbrItemsByPage) => {
   return partialPage ? nbrFullPage + 1 : nbrFullPage
 }
 
-function useTotalPages(filteredDatas, nbrItemsByPage) {
+function useTotalPages(filteredDatas) {
+  const nbrItemsByPage = useSelector((state) => state.table.currentItemsByPage)
+
   const [totalPage, setTotalPage] = useState(0)
 
   useEffect(() => {

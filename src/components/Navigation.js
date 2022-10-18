@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-function Navigation({
-  onNextPage,
-  onPrecPage,
-  currentPage,
-  totalPage,
-  onCustomPage,
-}) {
+function Navigation({ onNextPage, onPrecPage, totalPage, onCustomPage }) {
+  const currentPage = useSelector((state) => state.table.currentPage)
   const [pages, setPages] = useState()
 
   useEffect(() => {

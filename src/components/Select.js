@@ -4,8 +4,9 @@ import arrowDown from './caretdown.svg'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useSelector } from 'react-redux'
 
-function Select({ onChoice, name, value }) {
-  const choicesArray = useSelector((state) => state.table.itemsByPage)
+function Select({ onChoice, name }) {
+  const choicesArray = useSelector((state) => state.table.itemsByPageArr)
+  const value = useSelector((state) => state.table.currentItemsByPage)
 
   const [openMenu, setOpenMenu] = useState(false)
 

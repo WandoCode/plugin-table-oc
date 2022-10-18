@@ -8,53 +8,41 @@ import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import useSort from './hooks/useSort'
 import TableHeaders from './TableHeaders'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { goToPage, sortTable, setCurrentItemsByPage } from './Table.actions'
 
 function PagesTables({ datas }) {
-  const defaultItemsByPage = useSelector(
-    (state) => state.table.defaultItemsByPage
-  )
-  const defaultSort = useSelector((state) => state.table.defaultSort)
+  const dispatch = useDispatch()
+
   const search = useSelector((state) => state.table.search)
+  const currentPage = useSelector((state) => state.table.currentPage)
 
   const [searchInput, setSearchInput] = useState('')
-  const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [sorting, setSorting] = useState({
-    propriety: defaultSort,
-    direction: 1,
-  })
 
   const filteredDatas = useFilterDatas(datas, searchInput)
-  const sortedDatas = useSort(filteredDatas, sorting)
-  const totalPage = useTotalPages(sortedDatas, nbrItemsByPage)
-  const datasToDisplay = useGetDatasToDisplay(
-    sortedDatas,
-    nbrItemsByPage,
-    currentPage,
-    sorting,
-    false
-  )
+  const sortedDatas = useSort(filteredDatas)
+  const totalPage = useTotalPages(sortedDatas)
+  const datasToDisplay = useGetDatasToDisplay(sortedDatas, false)
 
   const rows = useRows(datasToDisplay, null)
 
   const onSorting = (newSorting) => {
-    setSorting(newSorting)
+    dispatch(sortTable(newSorting))
   }
 
   const handleNextPage = () => {
     const newCurrPage =
       currentPage + 1 <= totalPage ? currentPage + 1 : currentPage
-    setCurrentPage(newCurrPage)
+    dispatch(goToPage(newCurrPage))
   }
 
   const handlePrecPage = () => {
     const newCurrPage = currentPage - 1 > 0 ? currentPage - 1 : currentPage
-    setCurrentPage(newCurrPage)
+    dispatch(goToPage(newCurrPage))
   }
 
   const handleSelect = (e) => {
-    setNbrItemsByPage(e.target.value)
+    dispatch(setCurrentItemsByPage(e.target.value))
   }
 
   const handleSearch = (e) => {
@@ -62,7 +50,7 @@ function PagesTables({ datas }) {
   }
 
   const handleCustomPage = (page) => {
-    setCurrentPage(page)
+    dispatch(goToPage(page))
   }
 
   return (
@@ -70,16 +58,11 @@ function PagesTables({ datas }) {
       <div className="table__navigation">
         <div className="table__select">
           <label htmlFor="itemsByPage">Items by page:</label>
-          <Select
-            onChoice={handleSelect}
-            name="itemsByPage"
-            value={nbrItemsByPage}
-          />
+          <Select onChoice={handleSelect} name="itemsByPage" />
         </div>
         <Navigation
           onNextPage={handleNextPage}
           onPrecPage={handlePrecPage}
-          currentPage={currentPage}
           totalPage={totalPage}
           onCustomPage={handleCustomPage}
         />
@@ -101,7 +84,7 @@ function PagesTables({ datas }) {
       </div>
       <div className="table">
         <table>
-          <TableHeaders sorting={sorting} onSorting={onSorting} />
+          <TableHeaders onSorting={onSorting} />
           <tfoot>
             <tr>
               <td colSpan="3">{filteredDatas.length} entries</td>

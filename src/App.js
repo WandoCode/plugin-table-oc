@@ -20,7 +20,7 @@ function App() {
         datas={datas}
         scroll={true}
         showId={false}
-        defaultItemsByPage={60}
+        defaultItemsByPage={20}
         defaultSort="state"
         sort={true}
       />

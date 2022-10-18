@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-function useSort(datas, sorting) {
+function useSort(datas) {
+  const sorting = useSelector((state) => state.table.sorting)
+
   const [sortedDatas, setSortedDatas] = useState(datas)
 
   const sortDatas = (datas) => {

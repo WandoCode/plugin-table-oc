@@ -6,7 +6,7 @@ import {
   setDefaultItemsByPage,
   setDefaultSort,
   setHeaders,
-  setItemsByPage,
+  setPossibleItemsByPage,
   setSearch,
   setShowId,
   setSort,
@@ -20,7 +20,7 @@ function Table({
   headers,
   datas,
   defaultItemsByPage = 5,
-  itemsByPage = [5, 20, 50],
+  itemsByPageArr = [5, 20, 50],
   scroll = false,
   defaultSort = '',
   sort = true,
@@ -31,35 +31,13 @@ function Table({
   dispatch(setSearch(search))
   dispatch(setHeaders(headers))
   dispatch(setDefaultItemsByPage(defaultItemsByPage))
-  dispatch(setItemsByPage(itemsByPage))
+  dispatch(setPossibleItemsByPage(itemsByPageArr))
   dispatch(setDefaultSort(defaultSort))
   dispatch(setShowId(showId))
   dispatch(setSort(sort))
 
-  if (scroll)
-    return (
-      <ScrollTable
-        headers={headers}
-        datas={datas}
-        defaultItemsByPage={defaultItemsByPage}
-        defaultSort={defaultSort}
-        sort={sort}
-        showId={showId}
-      />
-    )
-  else
-    return (
-      <PagesTables
-        headers={headers}
-        datas={datas}
-        defaultItemsByPage={defaultItemsByPage}
-        itemsByPage={itemsByPage}
-        defaultSort={defaultSort}
-        sort={sort}
-        search={search}
-        showId={showId}
-      />
-    )
+  if (scroll) return <ScrollTable datas={datas} />
+  else return <PagesTables datas={datas} />
 }
 
 export default Table

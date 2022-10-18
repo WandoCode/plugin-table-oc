@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-function useGetDatasToDisplay(
-  datas,
-  nbrItemsByPage,
-  currentPage,
-  sorting,
-  scroll
-) {
+function useGetDatasToDisplay(datas, scroll) {
+  const currentPage = useSelector((state) => state.table.currentPage)
+  const sorting = useSelector((state) => state.table.sorting)
+  const nbrItemsByPage = useSelector((state) => state.table.currentItemsByPage)
+
   const [displayedDatas, setDisplayedDatas] = useState([])
   const sortingRef = useRef(sorting)
 
