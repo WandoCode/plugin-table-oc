@@ -1,17 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 function useGetDatasToDisplay(datas, scroll) {
   const currentPage = useSelector((state) => state.table.currentPage)
   const sorting = useSelector((state) => state.table.sorting)
   const nbrItemsByPage = useSelector((state) => state.table.currentItemsByPage)
 
-  const [displayedDatas, setDisplayedDatas] = useState([])
   const sortingRef = useRef(sorting)
+
+  const [displayedDatas, setDisplayedDatas] = useState([])
 
   useEffect(() => {
     let dataToDisplay
-    if (!scroll) dataToDisplay = paginate(datas, nbrItemsByPage, currentPage)
+    if (!scroll) dataToDisplay = paginate()
 
     if (scroll) {
       if (sortingRef.current !== sorting) {
@@ -28,7 +29,7 @@ function useGetDatasToDisplay(datas, scroll) {
   }, [currentPage, nbrItemsByPage, datas, sorting])
 
   // Pages start at 'page 1'
-  const paginate = (datas, nbrItemsByPage, currentPage) => {
+  const paginate = () => {
     const start = nbrItemsByPage * (currentPage - 1)
     const end = nbrItemsByPage * currentPage
 

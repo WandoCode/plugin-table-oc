@@ -1,9 +1,12 @@
 import arrowUp from './caretup.svg'
 import arrowDown from './caretdown.svg'
+import { useSelector } from 'react-redux'
 
 import { useState, useEffect } from 'react'
 
-function TableHeader({ name, sorted, direction, sort }) {
+function TableHeader({ name, sorted, direction }) {
+  const sort = useSelector((state) => state.table.sort)
+
   const [sortDirectionImg, setSortDirectionImg] = useState()
 
   useEffect(() => {

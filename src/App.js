@@ -18,7 +18,7 @@ function App() {
       <Table
         headers={headers}
         datas={datas}
-        scroll={true}
+        scroll={false}
         showId={false}
         defaultItemsByPage={20}
         defaultSort="state"

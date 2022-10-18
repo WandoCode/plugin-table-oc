@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 function useSort(datas) {
   const sorting = useSelector((state) => state.table.sorting)
 
   const [sortedDatas, setSortedDatas] = useState(datas)
 
-  const sortDatas = (datas) => {
+  const sortDatas = () => {
     if (sorting.propriety.length === 0) return
     const sortedDatas = [...datas].sort((a, b) => {
       return a[sorting.propriety] > b[sorting.propriety]

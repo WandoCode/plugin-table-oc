@@ -3,4 +3,8 @@ const getKeys = (object, showId) => {
   else return Object.keys(object).filter((key) => key !== 'id')
 }
 
-export { getKeys }
+const getNextPage = (currentPage, totalPage) => {
+  return currentPage + 1 <= totalPage ? currentPage + 1 : currentPage
+}
+
+export { getKeys, getNextPage }

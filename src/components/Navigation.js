@@ -1,13 +1,27 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { goToPage } from './Table.actions'
+import { getNextPage } from '../utility/helpers'
 
-function Navigation({ onNextPage, onPrecPage, totalPage, onCustomPage }) {
+function Navigation({ totalPage }) {
+  const dispatch = useDispatch()
   const currentPage = useSelector((state) => state.table.currentPage)
+
   const [pages, setPages] = useState()
 
   useEffect(() => {
     setPages(buildPages())
   }, [totalPage, currentPage])
+
+  const handlePrecPage = () => {
+    const newCurrPage = currentPage - 1 > 0 ? currentPage - 1 : currentPage
+    dispatch(goToPage(newCurrPage))
+  }
+
+  const handleNextPage = () => {
+    const newCurrPage = getNextPage(currentPage, totalPage)
+    dispatch(goToPage(newCurrPage))
+  }
 
   const buildPages = () => {
     let pagesArray = []
@@ -21,7 +35,7 @@ function Navigation({ onNextPage, onPrecPage, totalPage, onCustomPage }) {
               ? baseClass + ' navigation__page--active'
               : baseClass
           }
-          onClick={() => onCustomPage(i)}
+          onClick={() => dispatch(goToPage(i))}
         >
           {i}
         </button>
@@ -34,7 +48,7 @@ function Navigation({ onNextPage, onPrecPage, totalPage, onCustomPage }) {
     <div className="navigation">
       <button
         className="navigation__btn"
-        onClick={onPrecPage}
+        onClick={handlePrecPage}
         disabled={currentPage - 1 <= 0}
       >
         Prec
@@ -42,7 +56,7 @@ function Navigation({ onNextPage, onPrecPage, totalPage, onCustomPage }) {
       {pages}
       <button
         className="navigation__btn"
-        onClick={onNextPage}
+        onClick={handleNextPage}
         disabled={currentPage + 1 > totalPage}
       >
         Next

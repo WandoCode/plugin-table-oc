@@ -12,14 +12,14 @@ function useFilterDatas(datas, searchInput) {
     if (searchInput.length === 0) setFilteredDatas(datas)
     else {
       const newFilteredDatas = datas.filter((data) => {
-        return isInputInData(data, searchInput, headers, showId)
+        return isInputInData(data)
       })
 
       setFilteredDatas(newFilteredDatas)
     }
   }, [searchInput, datas, headers])
 
-  const isInputInData = (data, searchInput) => {
+  const isInputInData = (data) => {
     const keys = getKeys(headers, showId)
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]

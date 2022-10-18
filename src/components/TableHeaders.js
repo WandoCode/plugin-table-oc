@@ -1,10 +1,11 @@
 import { getKeys } from '../utility/helpers'
 import TableHeader from './TableHeader'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { sortTable } from './Table.actions'
 
-function TableHeaders({ onSorting }) {
+function TableHeaders() {
+  const dispatch = useDispatch()
   const headers = useSelector((state) => state.table.headers)
-  const sort = useSelector((state) => state.table.sort)
   const showId = useSelector((state) => state.table.showId)
   const sorting = useSelector((state) => state.table.sorting)
 
@@ -12,11 +13,13 @@ function TableHeaders({ onSorting }) {
     const val = e.nativeEvent.path.find((el) =>
       el.dataset.sort ? true : false
     )
+
     const newSorting = { ...sorting }
     newSorting.direction =
       sorting.propriety === val.dataset.sort ? sorting.direction * -1 : 1
     newSorting.propriety = val.dataset.sort
-    onSorting(newSorting)
+
+    dispatch(sortTable(newSorting))
   }
 
   const headersDOM = () => {
@@ -30,7 +33,6 @@ function TableHeaders({ onSorting }) {
               name={headers[key]}
               sorted={key === sorting.propriety}
               direction={sorting.direction}
-              sort={sort}
             />
           }
         </th>

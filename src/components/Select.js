@@ -2,16 +2,21 @@ import { useState } from 'react'
 import arrowUp from './caretup.svg'
 import arrowDown from './caretdown.svg'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setCurrentItemsByPage } from './Table.actions'
 
-function Select({ onChoice, name }) {
+function Select({ name }) {
+  const dispatch = useDispatch()
+
   const choicesArray = useSelector((state) => state.table.itemsByPageArr)
-  const value = useSelector((state) => state.table.currentItemsByPage)
+  const currentItemsByPage = useSelector(
+    (state) => state.table.currentItemsByPage
+  )
 
   const [openMenu, setOpenMenu] = useState(false)
 
   const handleInput = (e) => {
-    onChoice(e)
+    dispatch(setCurrentItemsByPage(e.target.value))
     setOpenMenu(false)
   }
 
@@ -47,7 +52,7 @@ function Select({ onChoice, name }) {
           onClick={handleBtnClick}
           className="select__selected"
         >
-          {value}
+          {currentItemsByPage}
           {openMenu ? (
             <img src={arrowUp} alt="arrow up" />
           ) : (

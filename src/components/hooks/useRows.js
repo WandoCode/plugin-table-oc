@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react'
 import { getKeys } from '../../utility/helpers'
 import { useSelector } from 'react-redux'
 
+const getCells = (keys, data) => {
+  return keys.map((key) => {
+    return <td key={data.id + key}>{data[key]}</td>
+  })
+}
+
 function useRows(datas, lastItemRef) {
   const headers = useSelector((state) => state.table.headers)
   const showId = useSelector((state) => state.table.showId)
@@ -9,16 +15,10 @@ function useRows(datas, lastItemRef) {
   const [rows, setRows] = useState([])
 
   useEffect(() => {
-    setRows(rowsDOM(datas, headers, lastItemRef, showId))
+    setRows(rowsDOM())
   }, [datas, headers])
 
-  const getCells = (keys, data) => {
-    return keys.map((key) => {
-      return <td key={data.id + key}>{data[key]}</td>
-    })
-  }
-
-  const rowsDOM = (datas, headers, lastItemRef, showId) => {
+  const rowsDOM = () => {
     const keys = getKeys(headers, showId)
     return datas.map((data, index) => {
       if (datas.length === index + 1)
