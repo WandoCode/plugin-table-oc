@@ -19,7 +19,7 @@ function Table({
   defaultItemsByPage = 5,
   itemsByPage = [5, 20, 50],
   scroll = false,
-  defaultSort = '',
+  defaultSort = 'state',
   sort = true,
   search = true,
   showId = false,
