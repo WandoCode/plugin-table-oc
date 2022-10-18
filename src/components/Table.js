@@ -8,6 +8,7 @@ import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
 import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import { getKeys } from '../utility/helpers'
+import useSort from './hooks/useSort'
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
@@ -36,13 +37,14 @@ function Table({
   })
   const filteredDatas = useFilterDatas(datas, searchInput, headers, showId)
   const totalPage = useTotalPages(filteredDatas, nbrItemsByPage)
-  const displayedDatas = useGetDatasToDisplay(
+  const datasToDisplay = useGetDatasToDisplay(
     nbrItemsByPage,
     currentPage,
     filteredDatas,
     sorting,
     scroll
   )
+  const finalDatas = useSort(datasToDisplay, sorting)
 
   const handleObserver = (entries) => {
     const target = entries[0]
@@ -58,10 +60,10 @@ function Table({
       observer.current = new IntersectionObserver(handleObserver)
       if (node) observer.current.observe(node)
     },
-    [displayedDatas]
+    [datasToDisplay]
   )
 
-  const rows = useRows(displayedDatas, headers, lastItemRef, showId)
+  const rows = useRows(finalDatas, headers, lastItemRef, showId)
 
   const headersDOM = () => {
     if (!headers) return
