@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import Navigation from './Navigation'
-import Select from './Select'
+import { useState, useCallback, useRef } from 'react'
+
 import '../style/index.css'
 import TableHeader from './TableHeader'
 import useFilterDatas from './hooks/useFilterDatas'

@@ -18,7 +18,7 @@ function App() {
       <Table
         headers={headers}
         datas={datas}
-        scroll={true}
+        scroll={false}
         showId={false}
         search={true}
         itemsByPage={[10, 20, 30]}

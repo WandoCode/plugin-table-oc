@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-
+import { useState } from 'react'
+import Navigation from './Navigation'
+import Select from './Select'
 import '../style/index.css'
 import TableHeader from './TableHeader'
 import useFilterDatas from './hooks/useFilterDatas'
@@ -8,26 +9,17 @@ import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import { getKeys } from '../utility/helpers'
 import useSort from './hooks/useSort'
-import ScrollTable from './ScrollTable'
-import PagesTables from './PagesTable'
 
-// Il faut fournir un objet pour le nom des colonnes
-// Datas est un array d'objet. Chaque objet a un id unique.
-// Les champs des objets datas sont des strings
-// Pas de sorting si infinite scroll
-function Table({
+function PagesTables({
   headers,
   datas,
-  defaultItemsByPage = 5,
-  itemsByPage = [5, 20, 50],
-  scroll = false,
+  defaultItemsByPage,
+  itemsByPage,
   defaultSort = '',
   sort = true,
   search = true,
   showId = false,
 }) {
-  search = scroll ? false : search //  No search if infinite scroll
-
   const [searchInput, setSearchInput] = useState('')
   const [nbrItemsByPage, setNbrItemsByPage] = useState(defaultItemsByPage)
   const [currentPage, setCurrentPage] = useState(1)
@@ -43,7 +35,7 @@ function Table({
     nbrItemsByPage,
     currentPage,
     sorting,
-    scroll
+    false
   )
   const finalDatas = useSort(datasToDisplay, sorting)
 
@@ -99,31 +91,59 @@ function Table({
   const handleCustomPage = (page) => {
     setCurrentPage(page)
   }
+  return (
+    <div className="table">
+      <div className="table__navigation">
+        <div className="table__select">
+          <label htmlFor="itemsByPage">Items by page:</label>
+          <Select
+            choicesArray={itemsByPage}
+            onChoice={handleSelect}
+            name="itemsByPage"
+            value={nbrItemsByPage}
+          />
+        </div>
+        <Navigation
+          onNextPage={handleNextPage}
+          onPrecPage={handlePrecPage}
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onCustomPage={handleCustomPage}
+        />
 
-  if (scroll)
-    return (
-      <ScrollTable
-        headers={headers}
-        datas={datas}
-        defaultItemsByPage={defaultItemsByPage}
-        defaultSort={defaultSort}
-        sort={sort}
-        showId={showId}
-      />
-    )
-  else
-    return (
-      <PagesTables
-        headers={headers}
-        datas={datas}
-        defaultItemsByPage={defaultItemsByPage}
-        itemsByPage={itemsByPage}
-        defaultSort={defaultSort}
-        sort={sort}
-        search={search}
-        showId={showId}
-      />
-    )
+        <div className="table__search">
+          {search && (
+            <>
+              <label htmlFor="search">Search</label>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                value={searchInput}
+                onChange={handleSearch}
+              />
+            </>
+          )}
+        </div>
+      </div>
+      <div className="table">
+        <table>
+          {headers && (
+            <thead>
+              <tr>{headersDOM()}</tr>
+            </thead>
+          )}
+          <tfoot>
+            <tr>
+              <td colSpan="3">{filteredDatas.length} entries</td>
+              <td colSpan="6"></td>
+            </tr>
+          </tfoot>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+    </div>
+  )
 }
 
-export default Table
+export default PagesTables
