@@ -2,13 +2,16 @@ import { useState } from 'react'
 import Navigation from './Navigation'
 import Select from './Select'
 import '../style/index.css'
-import useFilterDatas from './hooks/useFilterDatas'
-import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
-import useRows from './hooks/useRows'
-import useTotalPages from './hooks/useTotalPages'
-import useSort from './hooks/useSort'
+
 import TableHeaders from './TableHeaders'
 import { useSelector } from 'react-redux'
+import {
+  useRows,
+  useSort,
+  useTotalPages,
+  useGetDatasToDisplay,
+  useFilterDatas,
+} from '../utility/hooks/index'
 
 function PagesTables({ datas }) {
   const search = useSelector((state) => state.table.search)

@@ -3,11 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import '../style/index.css'
 import TableHeaders from './TableHeaders'
-import useFilterDatas from './hooks/useFilterDatas'
-import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
-import useRows from './hooks/useRows'
-import useTotalPages from './hooks/useTotalPages'
-import useSort from './hooks/useSort'
+import {
+  useRows,
+  useSort,
+  useTotalPages,
+  useGetDatasToDisplay,
+  useFilterDatas,
+} from '../utility/hooks/index'
+
 import { goToPage } from '../app/table/Table.actions'
 import { getNextPage } from '../utility/helpers'
 
