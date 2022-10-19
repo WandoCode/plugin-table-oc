@@ -6,7 +6,7 @@ It has been coded in the scope of the OpenClassrooms cursus.
 
 ## Description
 
-This plugin allows you to quickliy setup a react component to displays datas as a table.
+This plugin allows you to quickly setup a react component to displays datas as a table.
 
 This table is customisable:
 
