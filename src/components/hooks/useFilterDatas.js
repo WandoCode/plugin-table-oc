@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getKeys } from '../../utility/helpers'
+import { getKeys } from '../utility/helpers'
 import { useSelector, useDispatch } from 'react-redux'
 import { goToPage } from '../Table.actions'
 

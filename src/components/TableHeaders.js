@@ -1,7 +1,7 @@
-import { getKeys } from '../utility/helpers'
+import { getKeys } from './utility/helpers'
 import TableHeader from './TableHeader'
 import { useDispatch, useSelector } from 'react-redux'
-import { sortTable } from './Table.actions'
+import { goToPage, sortTable } from './Table.actions'
 
 function TableHeaders() {
   const dispatch = useDispatch()
@@ -20,6 +20,7 @@ function TableHeaders() {
     newSorting.propriety = val.dataset.sort
 
     dispatch(sortTable(newSorting))
+    dispatch(goToPage(1))
   }
 
   const headersDOM = () => {

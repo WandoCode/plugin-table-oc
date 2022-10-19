@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { goToPage } from './Table.actions'
-import { getNextPage } from '../utility/helpers'
+import { getNextPage } from './utility/helpers'
 
 function Navigation({ totalPage }) {
   const dispatch = useDispatch()

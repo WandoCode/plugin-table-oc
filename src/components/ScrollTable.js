@@ -9,7 +9,7 @@ import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import useSort from './hooks/useSort'
 import { goToPage } from './Table.actions'
-import { getNextPage } from '../utility/helpers'
+import { getNextPage } from './utility/helpers'
 
 function ScrollTable({ datas }) {
   const dispatch = useDispatch()

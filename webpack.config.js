@@ -2,10 +2,10 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  entry: './src/components/Table.js',
+  entry: './src/components/index.js',
   output: {
     path: path.resolve('dist'),
-    filename: 'Table.js',
+    filename: 'index.js',
     libraryTarget: 'commonjs2',
     clean: true,
   },
