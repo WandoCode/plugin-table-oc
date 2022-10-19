@@ -1,11 +1,13 @@
 # The table-oc plugin
 
 This project conains the code for plugin that help to build quickly a cutomisable Table React component.
+
 It has been coded in the scope of the OpenClassrooms cursus.
 
 ## Description
 
-This plugin allows you to quikcliy setup a react component to displays datas as a table.
+This plugin allows you to quickliy setup a react component to displays datas as a table.
+
 This table is customisable:
 
 - custom header's name
@@ -62,7 +64,7 @@ function App() {
 
 #### `headers`
 
-`headers` is an object that make the connection between data keys and columns header value. Only the keys present into the header object will be shown in the table.
+`headers` is an object that make the connection between data keys and columns header value. Only the keys present into the headers object will be shown in the table.
 
 The following example means that data's ids will be set in the column named 'id', the data's names in the 'Name' column and the data's zipCodes in the 'ZIP' column.
 
@@ -76,8 +78,10 @@ const headers = {
 
 #### `datas`
 
-`datas` contains is an array of object.
+`datas` is an array of object.
+
 Datas's objects can only contains strings.
+
 Each object have an unique id named `id`
 
 ## Optionnal
@@ -101,11 +105,13 @@ An other array of integer can ben set.
 ### `defaultItemsByPage`
 
 It defines the default number of items shown in one page of the table.
+
 If `scroll = true`, it's also the number of items added to the table when datas are added into it.
 
 ### `sort`
 
 It defines if the user can sort the table by clicking the column's header.
+
 Default is `true`.
 
 ### `defaultSort`
@@ -129,6 +135,7 @@ It search in all the table.
 Default is `false`.
 
 If set to true, the object id will be visible in the table.
+
 The id field have to be set into `headers` object to be diplayed.
 
 # Scripts
