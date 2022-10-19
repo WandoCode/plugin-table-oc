@@ -135,8 +135,7 @@ The id field have to be set into `headers` object to be diplayed.
 
 ## `npm start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches application without mocked datas, for developpement.
 
 ## `npm run start:dev`
 
