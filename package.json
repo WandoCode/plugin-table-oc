@@ -1,13 +1,18 @@
 {
   "name": "plugin-table-oc",
-  "version": "1.3.7",
-  "description": "This package help to build quickly a cutomisable Table React component",
+  "version": "1.3.8",
+  "description": "This package plugin to help to build quickly a cutomisable Table React component",
   "keywords": [
     "table",
     "react",
     "redux",
     "component"
   ],
+  "homepage": "https://github.com/WandoCode/plugin-table-oc",
+  "license": "MIT",
+  "author": {
+    "name": "Chirez Maxime"
+  },
   "main": "./dist/index.js",
   "babel": {
     "presets": [

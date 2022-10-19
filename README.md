@@ -1,70 +1,149 @@
-# Getting Started with Create React App
+# The table-oc plugin
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project conains the code for plugin that help to build quickly a cutomisable Table React component.
+It has been coded in the scope of the OpenClassrooms cursus.
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+This plugin allows you to quikcliy setup a react component to displays datas as a table.
+This table is customisable:
 
-### `npm start`
+- custom header's name
+- infinite scroll or pagination
+- column sorting
+- number of items by page
+- direct search among datas
+- etc
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisite
 
-### `npm test`
+- nodeJS: >v16.14.2
+
+## Installation
+
+1. Run `npm install plugin-table-oc` into your project folder.
+2. Import `TableIndex` into you React Application
+
+## Use
+
+Import and use directly:
+
+```
+import TableIndex from 'plugin-table-oc'
+function App() {
+    const headers = {
+        id: 'id',
+        name : 'Name',
+        zipCode: 'ZIP'
+    }
+
+    const datas = [
+        {
+            id: 0,
+            name: 'Jean',
+            zipCode: '78521',
+        },
+        {...},
+        ...
+    ]
+
+    return (
+        <main className="App">
+            <TableIndex headers={headers} datas={datas} />
+        </main>
+
+```
+
+## Props
+
+### Obligatory
+
+#### `headers`
+
+`headers` is an object that make the connection between data keys and columns header value. Only the keys present into the header object will be shown in the table.
+
+The following example means that data's ids will be set in the column named 'id', the data's names in the 'Name' column and the data's zipCodes in the 'ZIP' column.
+
+```
+const headers = {
+        id: 'id',
+        name : 'Name',
+        zipCode: 'ZIP'
+    }
+```
+
+#### `datas`
+
+`datas` contains is an array of object.
+Datas's objects can only contains strings.
+Each object have an unique id named `id`
+
+## Optionnal
+
+### `scroll`
+
+Default is `false`. It means that the datas's table will be paginated.
+
+Is set to `true`, the table will show all the datas on scroll.
+
+### `itemsByPageArr`
+
+It's only available if `scroll = false`.
+
+It defines the possible number of items displayed in the table. The user can change the number by chosing among one contained in the given array.
+
+Default is `[5, 20, 50]`.
+
+An other array of integer can ben set.
+
+### `defaultItemsByPage`
+
+It defines the default number of items shown in one page of the table.
+If `scroll = true`, it's also the number of items added to the table when datas are added into it.
+
+### `sort`
+
+It defines if the user can sort the table by clicking the column's header.
+Default is `true`.
+
+### `defaultSort`
+
+It defines the default sorting of the table at the 1st loading of the table.
+
+The name of a column can be passed trough that prop to change the sorted column.
+
+If `defaultSort = ''`, no default sort.
+
+### `search`
+
+Default is `true`.
+
+When activate, an input field will appear to make search possible.
+
+It search in all the table.
+
+### `showId`
+
+Default is `false`.
+
+If set to true, the object id will be visible in the table.
+The id field have to be set into `headers` object to be diplayed.
+
+# Scripts
+
+## `npm start`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## `npm run start:dev`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Launch the app like `npm start` would but populate also the app with mock datas.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## `npm run build`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for production to the `dist` folder.\
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+It use webpack v5 to bundle the application.

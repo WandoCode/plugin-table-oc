@@ -19,11 +19,11 @@ function App() {
       <TableIndex
         headers={headers}
         datas={datas}
-        scroll={false}
-        showId={false}
+        scroll={true}
+        showId={true}
         defaultItemsByPage={20}
         defaultSort="state"
-        sort={true}
+        sort={false}
       />
     </div>
   )
