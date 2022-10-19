@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { getKeys } from '../utility/helpers'
+import { getKeys } from '../../utility/helpers'
 import { useSelector, useDispatch } from 'react-redux'
-import { goToPage } from '../Table.actions'
+import { goToPage } from '../../app/table/Table.actions'
 
 function useFilterDatas(datas, searchInput) {
   const dispatch = useDispatch()

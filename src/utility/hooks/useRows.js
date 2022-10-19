@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getKeys } from '../utility/helpers'
+import { getKeys } from '../../utility/helpers'
 import { useSelector } from 'react-redux'
 
 const getCells = (keys, data) => {

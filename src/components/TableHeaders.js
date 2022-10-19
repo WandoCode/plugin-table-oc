@@ -1,7 +1,7 @@
-import { getKeys } from './utility/helpers'
+import { getKeys } from '../utility/helpers'
 import TableHeader from './TableHeader'
 import { useDispatch, useSelector } from 'react-redux'
-import { goToPage, sortTable } from './Table.actions'
+import { goToPage, sortTable } from '../app/table/Table.actions'
 
 function TableHeaders() {
   const dispatch = useDispatch()

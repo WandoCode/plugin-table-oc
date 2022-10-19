@@ -8,8 +8,8 @@ import useGetDatasToDisplay from './hooks/useGetDatasToDisplay'
 import useRows from './hooks/useRows'
 import useTotalPages from './hooks/useTotalPages'
 import useSort from './hooks/useSort'
-import { goToPage } from './Table.actions'
-import { getNextPage } from './utility/helpers'
+import { goToPage } from '../app/table/Table.actions'
+import { getNextPage } from '../utility/helpers'
 
 function ScrollTable({ datas }) {
   const dispatch = useDispatch()

@@ -3,7 +3,7 @@ import arrowUp from './caretup.svg'
 import arrowDown from './caretdown.svg'
 import OutsideClickHandler from 'react-outside-click-handler'
 import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentItemsByPage, goToPage } from './Table.actions'
+import { setCurrentItemsByPage, goToPage } from '../app/table/Table.actions'
 
 function Select({ name }) {
   const dispatch = useDispatch()

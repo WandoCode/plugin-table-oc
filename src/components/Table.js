@@ -1,7 +1,7 @@
 import '../style/index.css'
 import ScrollTable from './ScrollTable'
 import PagesTables from './PagesTable'
-import { Provider, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   setDefaultItemsByPage,
   setDefaultSort,
@@ -10,8 +10,7 @@ import {
   setSearch,
   setShowId,
   setSort,
-} from './Table.actions'
-import { store } from './app/redux-store'
+} from '../app/table/Table.actions'
 
 // Il faut fournir un objet pour le nom des colonnes
 // Datas est un array d'objet. Chaque objet a un id unique.
