@@ -1,6 +1,6 @@
 # The table-oc plugin
 
-This project conains the code for plugin that help to build quickly a cutomisable Table React component.
+This project contains the code for plugin that help to build quickly a cutomisable Table React component.
 
 It has been coded in the scope of the OpenClassrooms cursus.
 
@@ -137,19 +137,3 @@ Default is `false`.
 If set to true, the object id will be visible in the table.
 
 The id field have to be set into `headers` object to be diplayed.
-
-# Scripts
-
-## `npm start`
-
-Launches application without mocked datas, for developpement.
-
-## `npm run start:dev`
-
-Launch the app like `npm start` would but populate also the app with mock datas.
-
-## `npm run build`
-
-Builds the app for production to the `dist` folder.\
-
-It use webpack v5 to bundle the application.
