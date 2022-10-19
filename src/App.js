@@ -19,7 +19,7 @@ function App() {
       <TableIndex
         headers={headers}
         datas={datas}
-        scroll={true}
+        scroll={false}
         showId={true}
         defaultItemsByPage={20}
         defaultSort="state"
@@ -30,5 +30,3 @@ function App() {
 }
 
 export default App
-//TODO: Ecrire les test (unitaire + cypress)
-//TODO: Ecrire la documentation
